@@ -29,6 +29,7 @@ Route::prefix('/tabel-aset')->middleware(['auth'])->group(function() {
 Route::prefix('/parameter')->middleware(['auth'])->group(function() {
     Route::get('/', [MasterDataController::class, 'index'])->name('parameter');
     Route::get('/detail-parameter/{uid}', [MasterDataController::class, 'get_uid'])->name('parameter.first');
+    Route::get('/server-side', [MasterDataController::class, 'serverside'])->name('parameter.ss');
 
     Route::post('/save-data', [MasterDataController::class, 'save'])->name('parameter.save');
     Route::post('/update-data', [MasterDataController::class, 'update'])->name('parameter.update');
@@ -39,7 +40,7 @@ Route::prefix('/parameter')->middleware(['auth'])->group(function() {
 Route::prefix('/sub-parameter')->middleware(['auth'])->group(function() {
     Route::get('/', [MasterDataController::class, 'subindex'])->name('subparameter');
     Route::get('/detail-sub-parameter/{uid}', [MasterDataController::class, 'get_subuid'])->name('subparameter.first');
-    Route::get('/server-side', [MasterDataController::class, 'serverside'])->name('subparameter.ss');
+    Route::get('/server-side', [MasterDataController::class, 'serverside_sub'])->name('subparameter.ss');
 
     Route::post('/save-data', [MasterDataController::class, 'save_sub'])->name('subparameter.save');
     Route::post('/update-data', [MasterDataController::class, 'update_sub'])->name('subparameter.update');

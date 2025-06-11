@@ -1,120 +1,113 @@
-<aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0" aria-expanded="false">
-    <div class="h-19">
-        <i class="absolute top-0 right-0 p-4 opacity-50 cursor-pointer fas fa-times dark:text-white text-slate-400 xl:hidden" sidenav-close></i>
-        <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap dark:text-white text-slate-700" href="https://demos.creative-tim.com/argon-dashboard-tailwind/pages/dashboard.html" target="_blank">
-            <img src="../assets/img/logo-ct-dark.png" class="inline h-full max-w-full transition-all duration-200 dark:hidden ease-nav-brand max-h-8" alt="main_logo" />
-            <img src="../assets/img/logo-ct.png" class="hidden h-full max-w-full transition-all duration-200 dark:inline ease-nav-brand max-h-8" alt="main_logo" />
-            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Argon Dashboard 2</span>
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main" style="z-index: 999;">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="/">
+            <img src="{{ asset('assets/img/logo-ct-dark.png') }}" width="26px" height="26px" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-1 font-weight-bold">Creative Tim</span>
         </a>
     </div>
 
-    <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
+    <hr class="horizontal dark mt-0">
 
-    <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
-        <ul class="flex flex-col pl-0 mb-0">
-            <li class="mt-0.5 w-full">
-                <a class="{{ request()->routeIs('home') ? 'py-2.7 bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors {{ request()->routeIs('home') ? 'rounded-lg font-semibold text-slate-700' : '' }} bg-blue-500/30" href="/home">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                    <i class="relative top-0 text-sm leading-normal text-blue-500 ni ni-tv-2"></i>
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Dashboard</span>
+                    <span class="nav-link-text ms-1">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('aset') ? 'active' : '' }}" href="{{ route('aset') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Tabel Data</span>
                 </a>
             </li>
 
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/tables.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-calendar-grid-58"></i>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Master Data</h6>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}" href="{{ route('parameter') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Tabel Data</span>
+                    <span class="nav-link-text ms-1">Parameter</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('subparameter') ? 'active' : '' }}" href="{{ route('subparameter') }}">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Sub Parameter</span>
                 </a>
             </li>
 
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase dark:text-white opacity-60">Master Data</h6>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Laporan</h6>
             </li>
 
-            <li class="mt-0.5 w-full">
-                <a class="{{ request()->routeIs('parameter') ? 'py-2.7 bg-blue-500/13' : '' }} dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors {{ request()->routeIs('parameter') ? 'rounded-lg font-semibold text-slate-700' : '' }}" href="{{ route('parameter') }}">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-emerald-500 ni ni-credit-card"></i>
+            <li class="nav-item">
+                <a class="nav-link " href="../pages/rtl.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Parameter</span>
+                    <span class="nav-link-text ms-1">Laporan Aset</span>
                 </a>
             </li>
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/billing.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center fill-current stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-emerald-500 ni ni-credit-card"></i>
+            <li class="nav-item">
+                <a class="nav-link " href="../pages/rtl.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Sub Parameter</span>
-                </a>
-            </li>
-
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase dark:text-white opacity-60">Laporan</h6>
-            </li>
-
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/virtual-reality.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-cyan-500 ni ni-app"></i>
-                    </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Laporan Aset</span>
-                </a>
-            </li>
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/virtual-reality.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-cyan-500 ni ni-app"></i>
-                    </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Stiker Aset</span>
+                    <span class="nav-link-text ms-1">Stiker Aset</span>
                 </a>
             </li>
 
-            <li class="w-full mt-4">
-                <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase dark:text-white opacity-60">Pengaturan</h6>
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Pengaturan</h6>
             </li>
 
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/profile.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-slate-700 ni ni-single-02"></i>
+            <li class="nav-item">
+                <a class="nav-link " href="../pages/profile.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Profile</span>
+                    <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/sign-in.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-orange-500 ni ni-single-copy-04"></i>
+            <li class="nav-item">
+                <a class="nav-link " href="../pages/sign-in.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Data User</span>
+                    <span class="nav-link-text ms-1">Data User</span>
                 </a>
             </li>
-
-            <li class="mt-0.5 w-full">
-                <a class=" dark:text-white dark:opacity-80 py-2.7 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap px-4 transition-colors" href="../pages/sign-up.html">
-                    <div class="mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
-                        <i class="relative top-0 text-sm leading-normal text-cyan-500 ni ni-collection"></i>
+            <li class="nav-item">
+                <a class="nav-link " href="../pages/sign-up.html">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-collection text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease">Setting</span>
+                    <span class="nav-link-text ms-1">Setting</span>
                 </a>
             </li>
         </ul>
     </div>
-
-    <div class="mx-4">
-        <p class="invisible hidden text-gray-800 text-red-500 text-red-600 text-blue-500 dark:bg-white bg-slate-500 bg-gray-500/30 bg-cyan-500/30 bg-emerald-500/30 bg-orange-500/30 bg-red-500/30 after:bg-gradient-to-tl after:from-zinc-800 after:to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 after:from-blue-700 after:to-cyan-500 after:from-orange-500 after:to-yellow-500 after:from-green-600 after:to-lime-400 after:from-red-600 after:to-orange-600 after:from-slate-600 after:to-slate-300 text-emerald-500 text-cyan-500 text-slate-400"></p>
-        <div class="relative flex flex-col min-w-0 break-words bg-transparent border-0 shadow-none rounded-2xl bg-clip-border" sidenav-card>
-          <div class="flex-auto w-full p-4 pt-0 text-center">
-            <div class="transition-all duration-200 ease-nav-brand">
-              &nbsp;
+    <div class="sidenav-footer mx-3 ">
+      <div class="card card-plain shadow-none" id="sidenavCard">
+        <div class="card-body text-center p-3 w-100 pt-0">
+            <div class="docs-info">
+                &nbsp;
             </div>
-          </div>
         </div>
-        <!-- pro tip btn  -->
-        <button class="inline-block w-full px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" onclick="_logout()">Logout</button>
+      </div>
+      <a class="btn btn-primary btn-sm mb-0 w-100" href="javascript:void(0)" type="button" onclick="_logout()">Logout</a>
     </div>
 </aside>

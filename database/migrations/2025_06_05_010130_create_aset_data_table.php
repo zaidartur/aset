@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid_barang', '40')->unique();
             $table->string('kode_parent', '20');
             $table->string('kode_utama', '20');
-            $table->string('kode_urut', '5');
+            $table->integer('kode_urut');
             $table->string('uraian', '40');
             $table->string('nama_barang', '100');
             $table->string('merek_barang', '100')->nullable();

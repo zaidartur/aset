@@ -7,6 +7,7 @@ use App\Imports\SubParameter;
 use App\Models\Bahan;
 use App\Models\MasterData;
 use App\Models\MasterSubdata;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -122,6 +123,50 @@ class MasterDataController extends Controller
         }
     }
 
+    public function serverside()
+    {
+        $request = Request();
+        $draw = $_REQUEST['draw'] ?? 0;
+        $row = $_REQUEST['start'] ?? 0;
+        $rowperpage = $_REQUEST['length']; // Rows display per page
+        $columnIndex = $_REQUEST['order'][0]['column']; // Column index
+        $columnName = $_REQUEST['columns'][$columnIndex]['data']; // Column name
+        $columnSortOrder = $_REQUEST['order'][0]['dir']; // asc or desc
+        $searchValue = $_REQUEST['search']['value']; // Search value
+
+        $total  = MasterData::count();
+        $query  = MasterData::whereNotNull('created_at');
+        if (!empty($searchValue)) {
+                $query->where('kode_aset', 'like', '%'. $searchValue . '%')
+                    ->orWhere('uraian', 'like', '%'. $searchValue . '%')
+                    ->orWhere('keterangan', 'like', '%'. $searchValue . '%');
+        }
+        $filter = $query->get();
+
+        $data = [];
+        foreach ($filter as $key => $value) {
+            $data[] = [
+                'uuid'          => $value->uuid_aset,
+                'kode'          => $value->kode_aset,
+                'uraian'        => $value->uraian,
+                'keterangan'    => $value->keterangan,
+                'opsi'          => '<button type="button" class="btn rounded-pill btn-icon btn-warning waves-effect waves-light" onclick="_edit(`'. $value->uuid_aset .'`)" title="Edit Parameter"><i class="ti ti-edit"></i></button>' .
+                                    '&nbsp;&nbsp;' .
+                                    '<button type="button" class="btn rounded-pill btn-icon btn-danger waves-effect waves-light" onclick="_delete(`'. $value->uuid_aset .'`)" title="Hapus Parameter"><i class="ti ti-trash"></i></button>'
+            ];
+        }
+
+        ## Response
+        $response = [
+            "draw" => $draw ? intval($draw) : 0,
+            "recordsTotal" => $total,
+            "recordsFiltered" => count($filter),
+            "data" => array_slice($data, $row, $rowperpage),
+        ];
+
+        return json_encode($response);
+    }
+
 
     public function save_sub(Request $request)
     {
@@ -215,7 +260,7 @@ class MasterDataController extends Controller
         }
     }
 
-    public function serverside()
+    public function serverside_sub()
     {
         $request = Request();
         $draw = $_REQUEST['draw'] ?? 0;
@@ -249,8 +294,9 @@ class MasterDataController extends Controller
                 'parameter'     => $value->parameter,
                 'uraian'        => $value->uraian,
                 'keterangan'    => $value->keterangan,
-                'opsi'          => '<button type="button" class="btn btn-info btn-sm btn-icon btn-round" onclick="_edit(`'. $value->uuid_subdata .'`)" title="Edit Parameter"><i class="fas fa-pencil"></i></button>' .
-                                    '<button type="button" class="btn btn-danger btn-sm btn-icon btn-round" onclick="_delete(`'. $value->uuid_subdata .'`)" title="Hapus Parameter"><i class="fas fa-trash"></i></button>'
+                'opsi'          => '<button type="button" class="btn rounded-pill btn-icon btn-warning waves-effect waves-light" onclick="_edit(`'. $value->uuid_subdata .'`)" title="Edit Data"><i class="ti ti-edit"></i></button>' .
+                                    '&nbsp;&nbsp;' .
+                                    '<button type="button" class="btn rounded-pill btn-icon btn-danger waves-effect waves-light" onclick="_delete(`'. $value->uuid_subdata .'`)" title="Hapus Data"><i class="ti ti-trash"></i></button>'
             ];
         }
 

@@ -5,97 +5,53 @@
 
 
 @section('css')
-<link href="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/fc-5.0.4/fh-4.0.2/r-3.0.4/datatables.min.css" rel="stylesheet" crossorigin="anonymous">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<style>
-    div.dt-search {
-        float: left;
-    }
-    
-    div.dt-length {
-        float: right;
-    }
-
-    div.dt-info {
-        /* text-align: left; */
-        float: left;
-    }
-    
-    div.dt-paging {
-        /* clear: both;
-        text-align: right; */
-        float: right;
-        margin-top: 0.5em;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/flatpickr/flatpickr.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/select2/select2.css" />
+<!-- Row Group CSS -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css" />
+<!-- Form Validation -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/@form-validation/umd/styles/index.min.css" />
 @endsection
 
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card mb-4">
-            <div class="card-header pb-0">
-                <h6>Tabel Sub Parameter</h6>
-            </div>
-            
-            <div class="card-body">
-                <div class="mb-5">
-                    <button type="button" onclick="_add()" class="btn btn-success btn-sm mb-0 w-20"><i class="fas fa-plus-circle"></i> Buat Sub Parameter</button>
-                    <button type="button" onclick="_import()" class="btn btn-primary btn-sm mb-0 w-20"><i class="fas fa-file-excel" aria-hidden="true"></i> Import Sub Parameter</button>
-                    <button type="button" onclick="_template()" class="btn btn-info btn-sm mb-0 w-20"><i class="fas fa-download" aria-hidden="true"></i> Download Template</button>
-                </div>
-                <div class="table-responsive p-3">
-                    <table class="table align-items-center mb-0" id="tb_params">
-                        <thead>
-                            <tr>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kode Parameter</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Parameter</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Parent</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opsi</th>
-                                {{-- <th class="text-secondary opacity-7"></th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($lists as $i => $item)
-                                <tr>
-                                    <td class="text-left">{{ $i+1 }}</td>
-                                    <td class="text-uppercase font-weight-bolder">{{ $item->kode_subdata }}</td>
-                                    <td class="text-uppercase font-weight-bolder">{{ $item->uraian }}</td>
-                                    <td class="text-uppercase font-weight-bolder" title="{{ $item->isparam->kode_aset }}">{{ $item->isparam->uraian }}</td>
-                                    <td class="text-left">{{ $item->keterangan }}</td>
-                                    <td class="text-left">
-                                        <button type="button" class="btn btn-info btn-sm btn-icon btn-round" onclick="_edit('{{ $item->uuid_subdata }}')" title="Edit Parameter"><i class="fas fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm btn-icon btn-round" onclick="_delete('{{ $item->uuid_subdata }}')" title="Hapus Parameter"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach --}}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <div class="card-datatable table-responsive pt-0">
+            <table class="datatables-basic table" id="tb_subparam">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kode</th>
+                        <th>Uraian</th>
+                        <th>Parent</th>
+                        <th>Keterangan</th>
+                        <th>Opsi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="add_new" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="add_new" tabindex="-1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="title_modal">Buat Parameter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="#" method="POST" id="form_add">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="kode" class="col-form-label">Kode Parameter *</label>
+                        <label for="parent" class="form-label">Kode Parameter *</label>
                         <div class="w-100">
-                            <select name="parent" id="parent" class="selectpicker" data-live-search="true" style="width: 100%;" required>
+                            <select name="parent" id="parent" class="select2 form-select" data-allow-clear="true" required>
                                 @if (count($params) > 0)
                                     <option value="">Pilih Kode Parameter</option>
                                     @foreach ($params as $param)
@@ -120,8 +76,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>&nbsp; Simpan</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>&nbsp; Tutup</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><i class="ti ti-circle-x"></i>&nbsp; Tutup</button>
+                    <button type="submit" class="btn btn-outline-success"><i class="ti ti-device-floppy"></i>&nbsp; Simpan</button>
                 </div>
             </form>
         </div>
@@ -131,96 +87,294 @@
 
 
 @section('js')
-<script src="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/fc-5.0.4/fh-4.0.2/r-3.0.4/datatables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/i18n/defaults-id_ID.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Vendors JS -->
+<script src="{{ asset('') }}assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/select2/select2.js"></script>
+<!-- Flat Picker -->
+<script src="{{ asset('') }}assets/vendor/libs/moment/moment.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<!-- Form Validation -->
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
     let tbparam, tbmaterial
     $(document).ready(function() {
-        tbparam = $('#tb_params').DataTable({
-            language: {
-                processing: "Memproses ...",
-            },
-            dom: '<"top"fl>rt<"bottom"ip><"clear">',
-            proccessing: true,
-            serverSide: true,
-            lengthMenu: [10, 25, 50, 100],
-            pageLength: 10,
-            paging: true,
-            ajax: {
-                url: '{{ route("subparameter.ss") }}',
-            },
-            columns: [
-                {
-                    data: null,
+        var dt_basic_table = $('#tb_subparam'),
+            dt_complex_header_table = $('.dt-complex-header'),
+            dt_row_grouping_table = $('.dt-row-grouping'),
+            dt_multilingual_table = $('.dt-multilingual'),
+            dt_basic;
+
+        // DataTable with buttons
+        // --------------------------------------------------------------------
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                language: {
+                    processing: "Memproses ...",
                 },
-                {
-                    data: 'kode',
+                proccessing: true,
+                serverSide: true,
+                paging: true,
+                // ordering: false,
+                ajax: {
+                    url: '{{ route("subparameter.ss") }}',
                 },
-                {
-                    data: 'uraian'
-                },
-                {
-                    data: 'parameter'
-                },
-                {
-                    data: 'keterangan'
-                },
-                {
-                    data: 'opsi'
-                },
-            ],
-            columnsDefs: [
-                {
-                    searchable: false,
-                    orderable: false,
-                    targets: 0,
-                },
-                {
-                    searchable: true,
-                    orderable: false,
-                    targets: 1,
-                },
-                {
-                    searchable: true,
-                    orderable: false,
-                    targets: 2,
-                },
-                {
-                    searchable: false,
-                    orderable: false,
-                    targets: 3,
-                },
-                {
-                    searchable: true,
-                    orderable: false,
-                    targets: 4,
-                },
-                {
-                    searchable: false,
-                    orderable: false,
-                    targets: 5,
-                },
-            ]
-        })
-        tbparam.on('draw.dt', function() {
-            var PageInfo = $('#tb_params').DataTable().page.info();
-            tbparam.column(0, {
-                page: 'current'
-            }).nodes().each(function(cell, i) {
-                cell.innerHTML = i + 1 + PageInfo.start;
+                columns: [
+                    { data: null },
+                    { data: 'kode' },
+                    { data: 'uraian' },
+                    { data: 'parameter'},
+                    { data: 'keterangan' },
+                    { data: 'opsi' },
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        target: 1,
+                        orderable: false,
+                    },
+                    {
+                        responsivePriority: 1,
+                        targets: 2,
+                        orderable: false,
+                    },
+                    {
+                        targer: 3,
+                        orderable: false,
+                    },
+                    {
+                        targer: 4,
+                        orderable: false,
+                    },
+                    {
+                        targets: 5,
+                        searchable: false,
+                        orderable: false,
+                    },
+                ],
+                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 10,
+                lengthMenu: [10, 25, 50, 75, 100],
+                buttons: [
+                    {
+                        text: '<i class="ti ti-circle-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Buat Parameter</span>',
+                        className: 'btn btn-success me-2',
+                        action: function (e, dt, node, config) {
+                            _add()
+                        }
+                    },
+                    {
+                        text: '<i class="ti ti-file-spreadsheet me-sm-1"></i> <span class="d-none d-sm-inline-block">Import Parameter</span>',
+                        className: 'btn btn-primary me-2',
+                        action: function (e, dt, node, config) {
+                            _import()
+                        }
+                    },
+                    {
+                        text: '<i class="ti ti-download me-sm-1"></i> <span class="d-none d-sm-inline-block">Download Template</span>',
+                        className: 'btn btn-label-info me-2',
+                        action: function (e, dt, node, config) {
+                            _template()
+                        }
+                    },
+                    // {
+                    //     extend: 'collection',
+                    //     className: 'btn btn-label-primary dropdown-toggle me-2',
+                    //     text: '<i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                    //     buttons: [
+                    //         {
+                    //             extend: 'print',
+                    //             text: '<i class="ti ti-printer me-1" ></i>Print',
+                    //             className: 'dropdown-item',
+                    //             exportOptions: {
+                    //                 columns: [3, 4, 5, 6, 7],
+                    //                 // prevent avatar to be display
+                    //                 format: {
+                    //                     body: function (inner, coldex, rowdex) {
+                    //                         if (inner.length <= 0) return inner;
+                    //                         var el = $.parseHTML(inner);
+                    //                         var result = '';
+                    //                         $.each(el, function (index, item) {
+                    //                             if (item.classList !== undefined && item.classList.contains('user-name')) {
+                    //                                 result = result + item.lastChild.firstChild.textContent;
+                    //                             } else if (item.innerText === undefined) {
+                    //                                 result = result + item.textContent;
+                    //                             } else result = result + item.innerText;
+                    //                         });
+                    //                         return result;
+                    //                     }
+                    //                 }
+                    //             },
+                    //             customize: function (win) {
+                    //                 //customize print view for dark
+                    //                 $(win.document.body)
+                    //                     .css('color', config.colors.headingColor)
+                    //                     .css('border-color', config.colors.borderColor)
+                    //                     .css('background-color', config.colors.bodyBg);
+                    //                 $(win.document.body)
+                    //                     .find('table')
+                    //                     .addClass('compact')
+                    //                     .css('color', 'inherit')
+                    //                     .css('border-color', 'inherit')
+                    //                     .css('background-color', 'inherit');
+                    //             }
+                    //         },
+                    //         {
+                    //             extend: 'csv',
+                    //             text: '<i class="ti ti-file-text me-1" ></i>Csv',
+                    //             className: 'dropdown-item',
+                    //             exportOptions: {
+                    //                 columns: [3, 4, 5, 6, 7],
+                    //                 // prevent avatar to be display
+                    //                 format: {
+                    //                     body: function (inner, coldex, rowdex) {
+                    //                         if (inner.length <= 0) return inner;
+                    //                         var el = $.parseHTML(inner);
+                    //                         var result = '';
+                    //                         $.each(el, function (index, item) {
+                    //                             if (item.classList !== undefined && item.classList.contains('user-name')) {
+                    //                                 result = result + item.lastChild.firstChild.textContent;
+                    //                             } else if (item.innerText === undefined) {
+                    //                                 result = result + item.textContent;
+                    //                             } else result = result + item.innerText;
+                    //                         });
+                    //                         return result;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         },
+                    //         {
+                    //             extend: 'excel',
+                    //             text: '<i class="ti ti-file-spreadsheet me-1"></i>Excel',
+                    //             className: 'dropdown-item',
+                    //             exportOptions: {
+                    //                 columns: [3, 4, 5, 6, 7],
+                    //                 // prevent avatar to be display
+                    //                 format: {
+                    //                     body: function (inner, coldex, rowdex) {
+                    //                         if (inner.length <= 0) return inner;
+                    //                         var el = $.parseHTML(inner);
+                    //                         var result = '';
+                    //                         $.each(el, function (index, item) {
+                    //                             if (item.classList !== undefined && item.classList.contains('user-name')) {
+                    //                                 result = result + item.lastChild.firstChild.textContent;
+                    //                             } else if (item.innerText === undefined) {
+                    //                                 result = result + item.textContent;
+                    //                             } else result = result + item.innerText;
+                    //                         });
+                    //                         return result;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         },
+                    //         {
+                    //             extend: 'pdf',
+                    //             text: '<i class="ti ti-file-description me-1"></i>Pdf',
+                    //             className: 'dropdown-item',
+                    //             exportOptions: {
+                    //                 columns: [3, 4, 5, 6, 7],
+                    //                 // prevent avatar to be display
+                    //                 format: {
+                    //                     body: function (inner, coldex, rowdex) {
+                    //                         if (inner.length <= 0) return inner;
+                    //                         var el = $.parseHTML(inner);
+                    //                         var result = '';
+                    //                         $.each(el, function (index, item) {
+                    //                             if (item.classList !== undefined && item.classList.contains('user-name')) {
+                    //                                 result = result + item.lastChild.firstChild.textContent;
+                    //                             } else if (item.innerText === undefined) {
+                    //                                 result = result + item.textContent;
+                    //                             } else result = result + item.innerText;
+                    //                         });
+                    //                         return result;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         },
+                    //         {
+                    //             extend: 'copy',
+                    //             text: '<i class="ti ti-copy me-1" ></i>Copy',
+                    //             className: 'dropdown-item',
+                    //             exportOptions: {
+                    //                 columns: [3, 4, 5, 6, 7],
+                    //                 // prevent avatar to be display
+                    //                 format: {
+                    //                     body: function (inner, coldex, rowdex) {
+                    //                         if (inner.length <= 0) return inner;
+                    //                         var el = $.parseHTML(inner);
+                    //                         var result = '';
+                    //                         $.each(el, function (index, item) {
+                    //                             if (item.classList !== undefined && item.classList.contains('user-name')) {
+                    //                                 result = result + item.lastChild.firstChild.textContent;
+                    //                             } else if (item.innerText === undefined) {
+                    //                                 result = result + item.textContent;
+                    //                             } else result = result + item.innerText;
+                    //                         });
+                    //                         return result;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         }
+                    //     ]
+                    // },
+                ],
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function (row) {
+                            var data = row.data();
+                            return 'Details of ' + data['full_name'];
+                            }
+                        }),
+                        type: 'column',
+                        renderer: function (api, rowIdx, columns) {
+                            var data = $.map(columns, function (col, i) {
+                            return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
+                                ? '<tr data-dt-row="' +
+                                        col.rowIndex +
+                                        '" data-dt-column="' +
+                                        col.columnIndex +
+                                        '">' +
+                                            '<td>' +
+                                                col.title +
+                                                ':' +
+                                            '</td> ' +
+                                            '<td>' +
+                                                col.data +
+                                            '</td>' +
+                                        '</tr>'
+                                : '';
+                            }).join('');
+
+                            return data ? $('<table class="table"/><tbody />').append(data) : false;
+                        }
+                    }
+                }
             });
-        });
 
-        // $('.select2').select2({
-        //     theme: 'classic',
-        //     // minimumInputLength: 3,
-        // })
+            $('div.head-label').html('<h5 class="card-title mb-0">Tabel Sub Parameter</h5>');
+            dt_basic.on('draw.dt', function() {
+                var PageInfo = $('#tb_subparam').DataTable().page.info();
+                dt_basic.column(0, {
+                    page: 'current'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1 + PageInfo.start;
+                });
+            });
+        }
 
-        $('.selectpicker').selectpicker()
+        $('#parent').select2({
+            placeholder: 'Pilih Kode Parameter',
+            search: true,
+            allowClear: true,
+            dropdownParent: $('#add_new'),
+        })
     })
 
     $.ajaxSetup({
@@ -327,7 +481,7 @@
             $('#uuid').remove()
         }
         $('#form_add').attr('action', '{{ route("subparameter.save") }}')
-        $('#add_new').modal('show', {backdrop: 'static', keyboard: false})
+        $('#add_new').modal('show')
     }
 
     function _edit(uid) {
@@ -346,17 +500,15 @@
                     $('#keterangan').val(res.keterangan)
                     const uid = document.getElementById('uuid')
                     if (uid) {
-                        console.log('uuid exists')
-                        $('#uuid').val(res.uuid_aset)
+                        $('#uuid').val(res.uuid_subdata)
                     } else {
-                        console.log('uuid created')
                         $('#form_add').append(`<input type="hidden" name="uuid" id="uuid" value="${res.uuid_subdata}" required>`)
                     }
                     $('#add_new').modal('show')
                 } else {
                     Toast.fire({
                         icon: "error",
-                        title: "Parameter tidak ditemukan!"
+                        title: "Data tidak ditemukan!"
                     })
                 }
             },

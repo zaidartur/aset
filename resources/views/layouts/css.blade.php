@@ -1,10 +1,22 @@
-<!--     Fonts and icons     -->
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-<!-- Nucleo Icons -->
-<link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
-<link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
-<!-- Font Awesome Icons -->
-<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<!-- CSS Files -->
-<link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.1.0') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/fonts/tabler-icons.css" />
+<!-- <link rel="stylesheet" href="{{ asset('') }}assets/vendor/fonts/fontawesome.css" /> -->
+<!-- <link rel="stylesheet" href="{{ asset('') }}assets/vendor/fonts/flag-icons.css" /> -->
+
+<!-- Core CSS -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/theme-default.css') }}" class="template-customizer-theme-css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/css/demo.css" />
+
+<!-- Vendors CSS -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/node-waves/node-waves.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+<!-- Page CSS -->
+
+<!-- Helpers -->
+<script src="{{ asset('') }}assets/vendor/js/helpers.js"></script>
+<!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+<!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+<script src="{{ asset('') }}assets/vendor/js/template-customizer.js"></script>
+<!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+<script src="{{ asset('') }}assets/js/config.js"></script>

@@ -5,8 +5,15 @@
 
 
 @section('css')
-<link href="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/fc-5.0.4/fh-4.0.2/r-3.0.4/datatables.min.css" rel="stylesheet" crossorigin="anonymous">
-{{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.tailwindcss.css"> --}}
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/flatpickr/flatpickr.css" />
+<!-- Row Group CSS -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css" />
+<!-- Form Validation -->
+<link rel="stylesheet" href="{{ asset('') }}assets/vendor/libs/@form-validation/umd/styles/index.min.css" />
 
 <style>
     div.dt-search {
@@ -33,57 +40,31 @@
 
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card mb-4">
-            <div class="card-header pb-0">
-                <h6>Tabel Parameter</h6>
-            </div>
-            
-            <div class="card-body">
-                <div class="mb-5">
-                    <button type="button" onclick="_add()" class="btn btn-success btn-sm mb-0 w-20"><i class="fas fa-plus-circle"></i> Buat Parameter</button>
-                    <button type="button" onclick="_import()" class="btn btn-primary btn-sm mb-0 w-20"><i class="fas fa-file-excel" aria-hidden="true"></i> Import Parameter</button>
-                    <button type="button" onclick="_template()" class="btn btn-info btn-sm mb-0 w-20"><i class="fas fa-download" aria-hidden="true"></i> Download Template</button>
-                </div>
-                <div class="table-responsive p-3">
-                    <table class="table align-items-center mb-0" id="tb_params">
-                        <thead>
-                            <tr>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kode Parameter</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Parameter</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
-                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Opsi</th>
-                                {{-- <th class="text-secondary opacity-7"></th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($lists as $i => $item)
-                                <tr>
-                                    <td class="text-left">{{ $i+1 }}</td>
-                                    <td class="text-uppercase font-weight-bolder">{{ $item->kode_aset }}</td>
-                                    <td class="text-uppercase font-weight-bolder">{{ $item->uraian }}</td>
-                                    <td class="text-left">{{ $item->keterangan }}</td>
-                                    <td class="text-left">
-                                        <button type="button" class="btn btn-info btn-sm btn-icon btn-round" onclick="_edit('{{ $item->uuid_aset }}')" title="Edit Parameter"><i class="fas fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm btn-icon btn-round" onclick="_delete('{{ $item->uuid_aset }}')" title="Hapus Parameter"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <div class="card-datatable table-responsive pt-0">
+            <table class="datatables-basic table" id="tb_parameter">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kode</th>
+                        <th>Uraian</th>
+                        <th>Keterangan</th>
+                        <th>Opsi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="add_new" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
+
+<div class="modal fade" id="add_new" tabindex="-1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="title_modal">Buat Parameter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="#" method="POST" id="form_add">
                 @csrf
@@ -102,8 +83,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>&nbsp; Simpan</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fas fa-times-circle"></i>&nbsp; Tutup</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><i class="ti ti-circle-x"></i>&nbsp; Tutup</button>
+                    <button type="submit" class="btn btn-outline-success"><i class="ti ti-device-floppy"></i>&nbsp; Simpan</button>
                 </div>
             </form>
         </div>
@@ -113,17 +94,285 @@
 
 
 @section('js')
-<script src="https://cdn.datatables.net/v/dt/dt-2.3.2/b-3.2.3/b-colvis-3.2.3/b-html5-3.2.3/fc-5.0.4/fh-4.0.2/r-3.0.4/datatables.min.js" crossorigin="anonymous"></script>
-{{-- <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.3.2/js/dataTables.tailwindcss.js"></script> --}}
+<!-- Vendors JS -->
+<script src="{{ asset('') }}assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<!-- Flat Picker -->
+<script src="{{ asset('') }}assets/vendor/libs/moment/moment.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/flatpickr/flatpickr.js"></script>
+<!-- Form Validation -->
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/bundle/popular.min.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js"></script>
+<script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
 <script>
     let tbparam
     $(document).ready(function() {
-        tbparam = $('#tb_params').DataTable({
-            // dom: "flrtp",
-            dom: '<"top"fl>rt<"bottom"ip><"clear">',
-        })
+        // tbparam = $('#tb_params').DataTable({
+        //     // dom: "flrtp",
+        //     dom: '<"top"fl>rt<"bottom"ip><"clear">',
+        // })
+        var dt_basic_table = $('#tb_parameter'),
+            dt_complex_header_table = $('.dt-complex-header'),
+            dt_row_grouping_table = $('.dt-row-grouping'),
+            dt_multilingual_table = $('.dt-multilingual'),
+            dt_basic;
+
+        // DataTable with buttons
+        // --------------------------------------------------------------------
+        if (dt_basic_table.length) {
+            dt_basic = dt_basic_table.DataTable({
+                language: {
+                    processing: "Memproses ...",
+                },
+                proccessing: true,
+                serverSide: true,
+                paging: true,
+                // ordering: false,
+                ajax: {
+                    url: '{{ route("parameter.ss") }}',
+                },
+                columns: [
+                    { data: null },
+                    { data: 'kode' },
+                    { data: 'uraian' },
+                    { data: 'keterangan' },
+                    { data: 'opsi' },
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        searchable: false,
+                        orderable: false,
+                    },
+                    {
+                        target: 1,
+                        orderable: false,
+                    },
+                    {
+                        responsivePriority: 1,
+                        targets: 2,
+                        orderable: false,
+                    },
+                    {
+                        targer: 3,
+                        orderable: false,
+                    },
+                    {
+                        targets: 4,
+                        searchable: false,
+                        orderable: false,
+                    },
+                ],
+                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 10,
+                lengthMenu: [10, 25, 50, 75, 100],
+                buttons: [
+                    {
+                        text: '<i class="ti ti-circle-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Buat Parameter</span>',
+                        className: 'btn btn-success me-2',
+                        action: function (e, dt, node, config) {
+                            _add()
+                        }
+                    },
+                    {
+                        text: '<i class="ti ti-file-spreadsheet me-sm-1"></i> <span class="d-none d-sm-inline-block">Import Parameter</span>',
+                        className: 'btn btn-primary me-2',
+                        action: function (e, dt, node, config) {
+                            _import()
+                        }
+                    },
+                    {
+                        text: '<i class="ti ti-download me-sm-1"></i> <span class="d-none d-sm-inline-block">Download Template</span>',
+                        className: 'btn btn-label-info me-2',
+                        action: function (e, dt, node, config) {
+                            _template()
+                        }
+                    },
+                    {
+                        extend: 'collection',
+                        className: 'btn btn-label-primary dropdown-toggle me-2',
+                        text: '<i class="ti ti-file-export me-sm-1"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                        buttons: [
+                            {
+                                extend: 'print',
+                                text: '<i class="ti ti-printer me-1" ></i>Print',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    columns: [3, 4, 5, 6, 7],
+                                    // prevent avatar to be display
+                                    format: {
+                                        body: function (inner, coldex, rowdex) {
+                                            if (inner.length <= 0) return inner;
+                                            var el = $.parseHTML(inner);
+                                            var result = '';
+                                            $.each(el, function (index, item) {
+                                                if (item.classList !== undefined && item.classList.contains('user-name')) {
+                                                    result = result + item.lastChild.firstChild.textContent;
+                                                } else if (item.innerText === undefined) {
+                                                    result = result + item.textContent;
+                                                } else result = result + item.innerText;
+                                            });
+                                            return result;
+                                        }
+                                    }
+                                },
+                                customize: function (win) {
+                                    //customize print view for dark
+                                    $(win.document.body)
+                                        .css('color', config.colors.headingColor)
+                                        .css('border-color', config.colors.borderColor)
+                                        .css('background-color', config.colors.bodyBg);
+                                    $(win.document.body)
+                                        .find('table')
+                                        .addClass('compact')
+                                        .css('color', 'inherit')
+                                        .css('border-color', 'inherit')
+                                        .css('background-color', 'inherit');
+                                }
+                            },
+                            {
+                                extend: 'csv',
+                                text: '<i class="ti ti-file-text me-1" ></i>Csv',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    columns: [3, 4, 5, 6, 7],
+                                    // prevent avatar to be display
+                                    format: {
+                                        body: function (inner, coldex, rowdex) {
+                                            if (inner.length <= 0) return inner;
+                                            var el = $.parseHTML(inner);
+                                            var result = '';
+                                            $.each(el, function (index, item) {
+                                                if (item.classList !== undefined && item.classList.contains('user-name')) {
+                                                    result = result + item.lastChild.firstChild.textContent;
+                                                } else if (item.innerText === undefined) {
+                                                    result = result + item.textContent;
+                                                } else result = result + item.innerText;
+                                            });
+                                            return result;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                text: '<i class="ti ti-file-spreadsheet me-1"></i>Excel',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    columns: [3, 4, 5, 6, 7],
+                                    // prevent avatar to be display
+                                    format: {
+                                        body: function (inner, coldex, rowdex) {
+                                            if (inner.length <= 0) return inner;
+                                            var el = $.parseHTML(inner);
+                                            var result = '';
+                                            $.each(el, function (index, item) {
+                                                if (item.classList !== undefined && item.classList.contains('user-name')) {
+                                                    result = result + item.lastChild.firstChild.textContent;
+                                                } else if (item.innerText === undefined) {
+                                                    result = result + item.textContent;
+                                                } else result = result + item.innerText;
+                                            });
+                                            return result;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'pdf',
+                                text: '<i class="ti ti-file-description me-1"></i>Pdf',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    columns: [3, 4, 5, 6, 7],
+                                    // prevent avatar to be display
+                                    format: {
+                                        body: function (inner, coldex, rowdex) {
+                                            if (inner.length <= 0) return inner;
+                                            var el = $.parseHTML(inner);
+                                            var result = '';
+                                            $.each(el, function (index, item) {
+                                                if (item.classList !== undefined && item.classList.contains('user-name')) {
+                                                    result = result + item.lastChild.firstChild.textContent;
+                                                } else if (item.innerText === undefined) {
+                                                    result = result + item.textContent;
+                                                } else result = result + item.innerText;
+                                            });
+                                            return result;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                extend: 'copy',
+                                text: '<i class="ti ti-copy me-1" ></i>Copy',
+                                className: 'dropdown-item',
+                                exportOptions: {
+                                    columns: [3, 4, 5, 6, 7],
+                                    // prevent avatar to be display
+                                    format: {
+                                        body: function (inner, coldex, rowdex) {
+                                            if (inner.length <= 0) return inner;
+                                            var el = $.parseHTML(inner);
+                                            var result = '';
+                                            $.each(el, function (index, item) {
+                                                if (item.classList !== undefined && item.classList.contains('user-name')) {
+                                                    result = result + item.lastChild.firstChild.textContent;
+                                                } else if (item.innerText === undefined) {
+                                                    result = result + item.textContent;
+                                                } else result = result + item.innerText;
+                                            });
+                                            return result;
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                ],
+                responsive: {
+                    details: {
+                        display: $.fn.dataTable.Responsive.display.modal({
+                            header: function (row) {
+                            var data = row.data();
+                            return 'Details of ' + data['full_name'];
+                            }
+                        }),
+                        type: 'column',
+                        renderer: function (api, rowIdx, columns) {
+                            var data = $.map(columns, function (col, i) {
+                            return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
+                                ? '<tr data-dt-row="' +
+                                        col.rowIndex +
+                                        '" data-dt-column="' +
+                                        col.columnIndex +
+                                        '">' +
+                                            '<td>' +
+                                                col.title +
+                                                ':' +
+                                            '</td> ' +
+                                            '<td>' +
+                                                col.data +
+                                            '</td>' +
+                                        '</tr>'
+                                : '';
+                            }).join('');
+
+                            return data ? $('<table class="table"/><tbody />').append(data) : false;
+                        }
+                    }
+                }
+            });
+
+            $('div.head-label').html('<h5 class="card-title mb-0">Tabel Parameter</h5>');
+            dt_basic.on('draw.dt', function() {
+                var PageInfo = $('#tb_parameter').DataTable().page.info();
+                dt_basic.column(0, {
+                    page: 'current'
+                }).nodes().each(function(cell, i) {
+                    cell.innerHTML = i + 1 + PageInfo.start;
+                });
+            });
+        }
     })
 
     $.ajaxSetup({

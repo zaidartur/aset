@@ -1,113 +1,110 @@
-<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main" style="z-index: 999;">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="/">
-            <img src="{{ asset('assets/img/logo-ct-dark.png') }}" width="26px" height="26px" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">Creative Tim</span>
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo">
+                <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+                    fill="#7367F0" />
+                <path
+                    opacity="0.06"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+                    fill="#161616" />
+                <path
+                    opacity="0.06"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+                    fill="#161616" />
+                <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+                    fill="#7367F0" />
+                </svg>
+            </span>
+            <span class="app-brand-text demo menu-text fw-bold">Vuexy</span>
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
         </a>
     </div>
 
-    <hr class="horizontal dark mt-0">
+    <div class="menu-inner-shadow"></div>
 
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Home</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('aset') ? 'active' : '' }}" href="{{ route('aset') }}">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Tabel Data</span>
-                </a>
-            </li>
+    <ul class="menu-inner py-1">
+        <!-- Page -->
+        <li class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+            <a href="{{ route('home') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Home">Home</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('aset') ? 'active' : '' }}">
+            <a href="{{ route('aset') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Tabel Data">Tabel Data</div>
+            </a>
+        </li>
 
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Master Data</h6>
-            </li>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Master Data</span>
+        </li>
+        <li class="menu-item {{ request()->routeIs('parameter') ? 'active' : '' }}">
+            <a href="{{ route('parameter') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Parameter">Parameter</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('subparameter') ? 'active' : '' }}">
+            <a href="{{ route('subparameter') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Sub Parameter">Sub Parameter</div>
+            </a>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('parameter') ? 'active' : '' }}" href="{{ route('parameter') }}">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Parameter</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('subparameter') ? 'active' : '' }}" href="{{ route('subparameter') }}">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Sub Parameter</span>
-                </a>
-            </li>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Laporan</span>
+        </li>
+        <li class="menu-item">
+            <a href="index.html" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Page 1">Laporan Aset</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="page-2.html" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Page 2">Stiker Aset</div>
+            </a>
+        </li>
 
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Laporan</h6>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/rtl.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Laporan Aset</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/rtl.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-world-2 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Stiker Aset</span>
-                </a>
-            </li>
-
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Pengaturan</h6>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/profile.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Profile</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/sign-in.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Data User</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/sign-up.html">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-collection text-dark text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Setting</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="sidenav-footer mx-3 ">
-      <div class="card card-plain shadow-none" id="sidenavCard">
-        <div class="card-body text-center p-3 w-100 pt-0">
-            <div class="docs-info">
-                &nbsp;
-            </div>
-        </div>
-      </div>
-      <a class="btn btn-primary btn-sm mb-0 w-100" href="javascript:void(0)" type="button" onclick="_logout()">Logout</a>
-    </div>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Pengaturan</span>
+        </li>
+        <li class="menu-item">
+            <a href="index.html" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Page 1">Profile</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="page-2.html" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Page 2">Data User</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0)" class="menu-link" onclick="_logout()">
+                <i class="menu-icon tf-icons ti ti-logout"></i>
+                <div data-i18n="Page 2">Logout</div>
+            </a>
+        </li>
+    </ul>
 </aside>

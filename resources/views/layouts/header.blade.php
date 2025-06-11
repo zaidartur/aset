@@ -1,73 +1,98 @@
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                @hasSection('master')
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">@yield('master')</a></li>
-                @endif
-                <li class="breadcrumb-item text-sm text-white active" aria-current="page">@yield('title')</li>
-            </ol>
-            <h6 class="font-weight-bolder text-white mb-0">@yield('title')</h6>
-        </nav>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    &nbsp;
-                </div>
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="ti ti-menu-2 ti-sm"></i>
+        </a>
+    </div>
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <div class="navbar-nav align-items-center">
+            <div class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <i class="ti ti-md"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-start dropdown-styles">
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                            <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                            <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                            <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                        <div class="sidenav-toggler-inner">
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
-                            <i class="sidenav-toggler-line bg-white"></i>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                    </a>
-                </li>
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-user me-sm-1"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="my-auto">
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                    &nbsp;&nbsp;
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-0">
-                                            <span class="font-weight-bold">Profile</span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;" onclick="_logout()">
-                                <div class="d-flex py-1">
-                                    <div class="my-auto">
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                    </div>
-                                    &nbsp;&nbsp;
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-0">
-                                            <span class="font-weight-bold">Logout</span>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>                        
-                    </ul>
-                </li>
-            </ul>
         </div>
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                    <img src="{{ asset('') }}assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar avatar-online">
+                                <img src="{{ asset('') }}assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <span class="fw-medium d-block">John Doe</span>
+                                <small class="text-muted">Admin</small>
+                            </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="ti ti-user-check me-2 ti-sm"></i>
+                            <span class="align-middle">My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="ti ti-settings me-2 ti-sm"></i>
+                            <span class="align-middle">Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <span class="d-flex align-items-center align-middle">
+                            <i class="flex-shrink-0 ti ti-credit-card me-2 ti-sm"></i>
+                            <span class="flex-grow-1 align-middle">Billing</span>
+                            <span class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20"
+                                >2</span
+                            >
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="ti ti-logout me-2 ti-sm"></i>
+                            <span class="align-middle">Log Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--/ User -->
+        </ul>
     </div>
 </nav>
