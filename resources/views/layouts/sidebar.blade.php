@@ -75,13 +75,13 @@
         <li class="menu-item">
             <a href="index.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Page 1">Laporan Aset</div>
+                <div data-i18n="Laporan Aset">Laporan Aset</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="page-2.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
-                <div data-i18n="Page 2">Stiker Aset</div>
+                <div data-i18n="Stiker Aset">Stiker Aset</div>
             </a>
         </li>
 
@@ -91,19 +91,19 @@
         <li class="menu-item">
             <a href="index.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Page 1">Profile</div>
+                <div data-i18n="Profile">Profile</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="page-2.html" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
-                <div data-i18n="Page 2">Data User</div>
+                <div data-i18n="Data User">Data User</div>
             </a>
         </li>
         <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link" onclick="_logout()">
                 <i class="menu-icon tf-icons ti ti-logout"></i>
-                <div data-i18n="Page 2">Logout</div>
+                <div data-i18n="Logout">Logout</div>
             </a>
         </li>
     </ul>

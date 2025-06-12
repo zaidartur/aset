@@ -274,15 +274,20 @@ class MasterDataController extends Controller
         $total  = MasterSubdata::count();
         $query  = DB::table('master_subdatas as ms')->leftJoin('master_data as md', 'ms.parent', '=', 'md.uuid_aset')
                 ->select('ms.*', 'md.kode_aset', 'md.uraian as parameter');
-        if (isset($request->kode) && !empty($request->kode)) {
-            $query->where('ms.kode_subdata', 'like', '%'.$request->kode.'%');
+        if (!empty($searchValue)) {
+            $query->where('ms.kode_subdata', 'like', '%'.$searchValue.'%')
+                    ->orWhere('ms.uraian', 'like', '%'.$searchValue.'%')
+                    ->orWhere('ms.keterangan', 'like', '%'.$searchValue.'%');
         }
-        if (isset($request->uraian) && !empty($request->uraian)) {
-            $query->where('ms.uraian', 'like', '%'.$request->uraian.'%');
-        }
-        if (isset($request->keterangan) && !empty($request->keterangan)) {
-            $query->where('ms.keterangan', 'like', '%'.$request->keterangan.'%');
-        }
+        // if (isset($request->kode) && !empty($request->kode)) {
+        //     $query->where('ms.kode_subdata', 'like', '%'.$request->kode.'%');
+        // }
+        // if (isset($request->uraian) && !empty($request->uraian)) {
+        //     $query->where('ms.uraian', 'like', '%'.$request->uraian.'%');
+        // }
+        // if (isset($request->keterangan) && !empty($request->keterangan)) {
+        //     $query->where('ms.keterangan', 'like', '%'.$request->keterangan.'%');
+        // }
         $filter = $query->get();
 
         $data = [];

@@ -19,11 +19,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('/tabel-aset')->middleware(['auth'])->group(function() {
     Route::get('/', [AsetDataController::class, 'index'])->name('aset');
     Route::get('/detail/{uid}', [AsetDataController::class, 'detail'])->name('aset.detail');
+    Route::get('/subdata/{uid}', [AsetDataController::class, 'list_of_sub']);
+    Route::get('/server-side', [AsetDataController::class, 'serverside'])->name('aset.ss');
 
     Route::post('/save-data', [AsetDataController::class, 'save'])->name('aset.save');
     Route::post('/update-data', [AsetDataController::class, 'update'])->name('aset.update');
     Route::post('/hapus-data', [AsetDataController::class, 'delete'])->name('aset.drop');
-    Route::post('/server-side', [AsetDataController::class, 'serverside'])->name('aset.ss');
+    Route::post('/import-data', [AsetDataController::class, 'import_data'])->name('aset.import');
+    Route::post('/get-number', [AsetDataController::class, 'autonumber'])->name('aset.number');
 });
 
 Route::prefix('/parameter')->middleware(['auth'])->group(function() {

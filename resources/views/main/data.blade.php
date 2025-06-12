@@ -21,24 +21,18 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="card">
-        <div class="p-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser">
-            Show
-            </button>
-        </div>
         <div class="card-datatable table-responsive pt-0">
-            <table class="datatables-basic table" id="tb_aset">
+            <table class="datatables-basic table" id="tb_aset" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nama Barang</th>
-                        <th>Merek Barang</th>
-                        <th>Tipe Barang</th>
-                        <th>Tahun Pembelian</th>
-                        <th>Ruang</th>
-                        <th>Kondisi</th>
-                        <th>Keterangan</th>
-                        <th>Opsi</th>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 15%;">Nama Barang</th>
+                        <th style="width: 15%;">Merek Barang</th>
+                        <th style="width: 5%;">Tahun Pembelian</th>
+                        <th style="width: 15%;">Ruang</th>
+                        <th style="width: 10%;">Kondisi</th>
+                        <th style="width: 20%;">Keterangan</th>
+                        <th style="width: 15%;">Opsi</th>
                     </tr>
                 </thead>
             </table>
@@ -46,83 +40,76 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="addnew" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                {{-- <h5 class="modal-title" id="title_modal">Tambah Data</h5> --}}
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+<div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="text-center mb-4">
-                    <h3 class="mb-2" id="title_modal">Edit User Information</h3>
+                    <h3 class="mb-2" id="modalTitle">Tambah Data</h3>
                     <p class="text-muted">&nbsp;</p>
                 </div>
-                <form action="#" method="POST" id="formAdd" class="row g-3" onsubmit="return false">
+
+                <form id="addForm" class="row g-3" method="POST" action="#">
                     @csrf
                     <div class="col-12 col-md-6">
-                        <label for="subdata" class="form-label">Kategori *</label>
-                        <div class="w-100">
-                            <select name="subdata" id="subdata" class="form-select" data-allow-clear="true" style="width: 100%;" onchange="_urutan(this.value)" required>
-                                {{-- @if (count($subdata) > 0)
-                                    <option value="">Pilih Kategori Barang</option>
-                                    @foreach ($subdata as $param)
-                                        <option value="{{ $param->uuid_subdata }}">{{ $param->kode_subdata }} - {{ $param->uraian }}</option>
-                                    @endforeach
-                                @endif --}}
-                                <option value="">Tidak Ada Data</option>
-                            </select>
-                        </div>
+                        <label class="form-label" for="parameter">Kategori</label>
+                        <select id="parameter" name="parameter" class="select2 form-select" data-allow-clear="true" aria-label="Pilih Kategori" onchange="_params(this.value, this.id)">
+                            @if (count($params) > 0)
+                                <option value="">Pilih Kategori</option>
+                                @foreach ($params as $param)
+                                    <option value="{{ $param->uuid_aset }}">{{ $param->kode_aset }} - {{ $param->uraian }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="nama" class="form-label">Nama Barang *</label>
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Barang" required autofocus>
+                        <label class="form-label" for="uraian">Uraian</label>
+                        <select id="uraian" name="uraian" class="select2 form-select" data-allow-clear="true" aria-label="Pilih Kategori dahulu" onchange="_setNumber(this.value, this.id)">
+                            <option value="" selected>Pilih Kategori</option>
+                        </select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="urutan" class="form-label">Nomor Urut *</label>
-                        <input type="number" class="form-control" id="urutan" name="urutan" placeholder="000" required readonly>
+                        <label class="form-label" for="urutan">Kode Urut (otomatis)</label>
+                        <input type="text" id="urutan" name="urutan" class="form-control" placeholder="000" required readonly />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="merek" class="form-label">Merek Barang *</label>
-                        <input type="text" class="form-control" id="merek" name="merek" placeholder="Merek Barang" required>
+                        <label class="form-label" for="nama">Nama Barang</label>
+                        <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Barang" required />
+                    </div>
+                    
+                    <div class="col-12 col-md-4">
+                        <label class="form-label" for="merek">Merek Barang</label>
+                        <input type="text" id="merek" name="merek" class="form-control" placeholder="Nama merek" required />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="tipe" class="form-label">Tipe Barang </label>
-                        <input type="text" class="form-control" id="tipe" name="tipe" placeholder="Tipe Barang">
+                        <label class="form-label" for="tipe">Tipe Barang</label>
+                        <input type="text" id="tipe" name="tipe" class="form-control" placeholder="Jenis/Tipe" />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="ukuran" class="form-label">Ukuran/Dimensi</label>
-                        <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="Tulis ukuran barang">
+                        <label class="form-label" for="ukuran">Ukuran/Dimensi</label>
+                        <input type="text" id="ukuran" name="ukuran" class="form-control" placeholder="Ukuran barang" />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="bahan" class="form-label">Bahan</label>
-                        <input type="text" class="form-control" id="bahan" name="bahan" placeholder="Bahan/Material">
+                        <label class="form-label" for="bahan">Bahan</label>
+                        <input type="text" id="bahan" name="bahan" class="form-control" placeholder="Bahan utama" required />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="harga" class="form-label">Harga Pembelian *</label>
+                        <label class="form-label" for="harga">Harga Pembelian</label>
+                        {{-- <input type="text" id="ukuran" name="ukuran" class="form-control numeral-mask" placeholder="Harga barang" /> --}}
                         <div class="input-group input-group-merge">
                             <span class="input-group-text">Rp</span>
                             <input type="text" class="form-control numeral-mask" id="harga" name="harga" placeholder="Nominal harga" required>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="tahun" class="form-label">Tahun Pembelian *</label>
-                        <input type="number" class="form-control" id="tahun" name="tahun" placeholder="{{ date('Y') }}" max="{{ date('Y') +1 }}" required>
+                        <label class="form-label" for="tahun">Tahun Pembelian</label>
+                        <input type="text" id="tahun" name="tahun" class="form-control" placeholder="{{ date('Y') }}" required />
                     </div>
                     <div class="col-12 col-md-4">
-                        <label for="ruang" class="form-label">Ruang *</label>
-                        <input type="text" class="form-control" id="ruang" name="ruang" placeholder="Lokasi barang tersebut" required>
+                        <label class="form-label" for="ruang">Ruang/Lokasi</label>
+                        <input type="text" id="ruang" name="ruang" class="form-control" placeholder="Lokasi barang" required />
                     </div>
-                    {{-- <div class="col-12 col-md-4">
-                        <label for="kondisi" class="form-label">Kondisi Barang *</label>
-                        <select name="kondisi" id="kondisi" class="form-select" data-allow-clear="true" required>
-                            <option value="">Pilih Kondisi Barang</option>
-                            <option value="b"><span class="ti ti-checks"></span> Baik</option>
-                            <option value="rr">Rusak Ringan</option>
-                            <option value="rb">Rusak Berat</option>
-                        </select>
-                    </div> --}}
                     <div class="col-12 row g-3">
                         <label for="">Kondisi Barang</label>
                         <div class="col-md mb-md-0 mb-3">
@@ -158,7 +145,7 @@
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.1" d="M10.2501 5.147L3.64909 17.0287C2.9085 18.3618 3.87244 20 5.39741 20H18.5994C20.1243 20 21.0883 18.3618 20.3477 17.0287L13.7467 5.147C12.9847 3.77538 11.0121 3.77538 10.2501 5.147Z" fill="#b41313"></path> <path d="M12 10V13" stroke="#b41313" stroke-width="2.112" stroke-linecap="round"></path> <path d="M12 16V15.9888" stroke="#b41313" stroke-width="2.112" stroke-linecap="round"></path> <path d="M10.2515 5.147L3.65056 17.0287C2.90997 18.3618 3.8739 20 5.39887 20H18.6008C20.1258 20 21.0897 18.3618 20.3491 17.0287L13.7482 5.147C12.9861 3.77538 11.0135 3.77538 10.2515 5.147Z" stroke="#b41313" stroke-width="2.112" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 
                                         <span class="custom-option-title"> Rusak Berat </span>
-                                        <small> Barang tidak bisa digunakan untuk operasional </small>
+                                        <small> Barang tidak bisa digunakan </small>
                                     </span>
                                     <input name="kondisi" class="form-check-input" type="radio" value="rb" id="berat" required>
                                 </label>
@@ -166,190 +153,19 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="keterangan" class="form-label">Keterangan</label>
-                        <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan barang"></textarea>
+                        <label class="form-label" for="keterangan">Keterangan</label>
+                        <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
                     </div>
 
                     <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-                        <button
-                        type="reset"
-                        class="btn btn-label-secondary"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                        Cancel
-                        </button>
+                          <button type="submit" class="btn btn-success me-sm-3 me-1"><i class="ti ti-device-floppy"></i>&nbsp; Simpan</button>
+                          <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i>&nbsp; Batalkan</button>
                     </div>
                 </form>
             </div>
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"><i class="ti ti-circle-x"></i>&nbsp; Tutup</button>
-                <button type="button" class="btn btn-outline-success" onclick="$('#formAdd').submit()"><i class="ti ti-device-floppy"></i>&nbsp; Simpan</button>
-            </div> --}}
         </div>
     </div>
 </div>
-
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-<div class="modal-dialog modal-lg ">
-    <div class="modal-content p-3 p-md-5">
-    <div class="modal-body">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div class="text-center mb-4">
-        <h3 class="mb-2">Edit User Information</h3>
-        <p class="text-muted">Updating user details will receive a privacy audit.</p>
-        </div>
-        <form id="editUserForm" class="row g-3" onsubmit="return false">
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserFirstName">First Name</label>
-            <input
-            type="text"
-            id="modalEditUserFirstName"
-            name="modalEditUserFirstName"
-            class="form-control"
-            required
-            placeholder="John" />
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserLastName">Last Name</label>
-            <input
-            type="text"
-            id="modalEditUserLastName"
-            name="modalEditUserLastName"
-            class="form-control"
-            placeholder="Doe" />
-        </div>
-        <div class="col-12">
-            <label class="form-label" for="modalEditUserName">Username</label>
-            <input
-            type="text"
-            id="modalEditUserName"
-            name="modalEditUserName"
-            class="form-control"
-            placeholder="john.doe.007" />
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserEmail">Email</label>
-            <input
-            type="text"
-            id="modalEditUserEmail"
-            name="modalEditUserEmail"
-            class="form-control"
-            placeholder="example@domain.com" />
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserStatus">Status</label>
-            <select
-            id="modalEditUserStatus"
-            name="modalEditUserStatus"
-            class="select2 form-select"
-            aria-label="Default select example">
-            <option selected>Status</option>
-            <option value="1">Active</option>
-            <option value="2">Inactive</option>
-            <option value="3">Suspended</option>
-            </select>
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditTaxID">Tax ID</label>
-            <input
-            type="text"
-            id="modalEditTaxID"
-            name="modalEditTaxID"
-            class="form-control modal-edit-tax-id"
-            placeholder="123 456 7890" />
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserPhone">Phone Number</label>
-            <div class="input-group">
-            <span class="input-group-text">US (+1)</span>
-            <input
-                type="text"
-                id="modalEditUserPhone"
-                name="modalEditUserPhone"
-                class="form-control phone-number-mask"
-                placeholder="202 555 0111" />
-            </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserLanguage">Language</label>
-            <select
-            id="modalEditUserLanguage"
-            name="modalEditUserLanguage"
-            class="select2 form-select"
-            multiple>
-            <option value="">Select</option>
-            <option value="english" selected>English</option>
-            <option value="spanish">Spanish</option>
-            <option value="french">French</option>
-            <option value="german">German</option>
-            <option value="dutch">Dutch</option>
-            <option value="hebrew">Hebrew</option>
-            <option value="sanskrit">Sanskrit</option>
-            <option value="hindi">Hindi</option>
-            </select>
-        </div>
-        <div class="col-12 col-md-6">
-            <label class="form-label" for="modalEditUserCountry">Country</label>
-            <select
-            id="modalEditUserCountry"
-            name="modalEditUserCountry"
-            class="select2 form-select"
-            data-allow-clear="true">
-            <option value="">Select</option>
-            <option value="Australia">Australia</option>
-            <option value="Bangladesh">Bangladesh</option>
-            <option value="Belarus">Belarus</option>
-            <option value="Brazil">Brazil</option>
-            <option value="Canada">Canada</option>
-            <option value="China">China</option>
-            <option value="France">France</option>
-            <option value="Germany">Germany</option>
-            <option value="India">India</option>
-            <option value="Indonesia">Indonesia</option>
-            <option value="Israel">Israel</option>
-            <option value="Italy">Italy</option>
-            <option value="Japan">Japan</option>
-            <option value="Korea">Korea, Republic of</option>
-            <option value="Mexico">Mexico</option>
-            <option value="Philippines">Philippines</option>
-            <option value="Russia">Russian Federation</option>
-            <option value="South Africa">South Africa</option>
-            <option value="Thailand">Thailand</option>
-            <option value="Turkey">Turkey</option>
-            <option value="Ukraine">Ukraine</option>
-            <option value="United Arab Emirates">United Arab Emirates</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="United States">United States</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <label class="switch">
-            <input type="checkbox" class="switch-input" />
-            <span class="switch-toggle-slider">
-                <span class="switch-on"></span>
-                <span class="switch-off"></span>
-            </span>
-            <span class="switch-label">Use as a billing address?</span>
-            </label>
-        </div>
-        <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-            <button
-            type="reset"
-            class="btn btn-label-secondary"
-            data-bs-dismiss="modal"
-            aria-label="Close">
-            Cancel
-            </button>
-        </div>
-        </form>
-    </div>
-    </div>
-</div>
-</div>
-<!--/ Edit User Modal -->
 
 @endsection
 
@@ -369,93 +185,7 @@
 <script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 <script src="{{ asset('') }}assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
 
-<script src="{{ asset('') }}assets/js/modal-edit-user.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    (function () {
-        const formValidationInput = document.getElementById('formAdd'),
-            formValidationSubdata = jQuery(formValidationInput.querySelector('[name="subdata"]'))
-
-        let addNew = document.getElementById('addnew');
-        addNew.addEventListener('show.bs.modal', function (event) {
-            // Init custom option check
-            window.Helpers.initCustomOptionCheck();
-        });
-        const fv = FormValidation.formValidation(formValidationInput, {
-            fields: {
-                // nama: {
-                //     validators: {
-                //         notEmpty: {
-                //             message: 'Nama barang wajib di isi'
-                //         }
-                //     }
-                // },
-                merek: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Merek barang wajib di isi'
-                        }
-                    }
-                },
-                harga: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Harga barang wajib di isi'
-                        }
-                    }
-                },
-                tahun: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Tahun pembelian wajib di isi'
-                        }
-                    }
-                },
-                kondisi: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Mohon untuk memilih kondisi barang'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                bootstrap5: new FormValidation.plugins.Bootstrap5({
-                    eleValidClass: '',
-                    rowSelector: '.mb-3'
-                }),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-
-                defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                autoFocus: new FormValidation.plugins.AutoFocus()
-            },
-            init: instance => {
-                instance.on('plugins.message.placed', function (e) {
-                    if (e.element.parentElement.classList.contains('input-group')) {
-                        e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
-                    }
-                    if (e.element.parentElement.parentElement.classList.contains('custom-option')) {
-                        e.element.closest('.row').insertAdjacentElement('afterend', e.messageElement);
-                    }
-                });
-            }
-        });
-
-        if (formValidationSubdata.length) {
-            formValidationSubdata.wrap('<div class="position-relative"></div>');
-            formValidationSubdata.select2({
-                placeholder: 'Pilih Kategori',
-                dropdownParent: formValidationSubdata.parent()
-            }).on('change.select2', function () {
-                // Revalidate the color field when an option is chosen
-                fv.revalidateField('subdata');
-            });
-        }
-    })();
-});
-</script>
+<script src="{{ asset('') }}assets/js/data-aset-validation.js"></script>
 
 <script>
     let tb_aset
@@ -473,17 +203,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 language: {
                     processing: "Memproses ...",
                 },
-                // proccessing: true,
-                // serverSide: true,
-                // paging: true,
-                // ajax: {
-                //     url: '{{ route("aset.ss") }}',
-                // },
+                proccessing: true,
+                serverSide: true,
+                paging: true,
+                ajax: {
+                    url: '{{ route("aset.ss") }}',
+                },
                 columns: [
                     { data: null },
-                    { data: 'kode' },
-                    { data: 'uraian' },
-                    { data: 'parameter'},
+                    { data: 'nama' },
+                    { data: 'merek' },
+                    { data: 'tahun' },
+                    { data: 'ruang' },
+                    { data: 'kondisi' },
                     { data: 'keterangan' },
                     { data: 'opsi' },
                 ],
@@ -629,14 +361,323 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function _add() {
-        $('#title_modal').text('Tambah Data')
-        $('#formAdd')[0].reset()
+        $('#modalTitle').text('Tambah Data')
+        $('#addForm')[0].reset()
         const uid = document.getElementById('uuid')
         if (uid) {
             $('#uuid').remove()
         }
-        $('#formAdd').attr('action', '{{ route("parameter.save") }}')
-        $('#addnew').modal('show')
+        $('#parameter').val('').trigger('change')
+        $('#uraian').empty().trigger("change")
+        $select = $('#uraian').data('select2').$container
+        $select.find('.select2-selection__placeholder').text('Pilih Kategori')
+
+        $('#addForm').attr('action', '{{ route("aset.save") }}')
+
+        $('#editUser').modal('show')
+    }
+
+    function _import() {
+        Swal.fire({
+            title: 'Pilih file Excel',
+            html: '<p class="text-warning">Pastikan data sudah sesuai dengan template yang disediakan</p>',
+            input: 'file',
+            inputAttributes: {
+                accept: '.xlsx,.xls',
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Import',
+            cancelButtonText: 'Batal',
+            showLoaderOnConfirm: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            onBeforeOpen: () => {
+                $(".swal2-file").change(function () {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(this.files[0]);
+                });
+            },
+            preConfirm: (login) => {
+                Swal.getCancelButton().setAttribute('style', 'display:none;')
+                Swal.getConfirmButton().setAttribute('style', 'display:none;')
+                $('.swal2-file').prop('readonly', 'true')
+
+                if ($('.swal2-file')[0].files[0] == null) {
+                    Swal.showValidationMessage('File belum dimasukkan')
+
+                    Swal.getCancelButton().setAttribute('style', 'display:block;')
+                    Swal.getConfirmButton().setAttribute('style', 'display:block;')
+                    $('.swal2-file').prop('readonly', 'false')
+                } else {
+                    var formData = new FormData();
+                    var file = $('.swal2-file')[0].files[0];
+                    formData.append("fileToUpload", file);
+                    return $.ajax({
+                        url: "{{ route('aset.import') }}",
+                        method: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (a) {
+                            if (a.res === 'success') {
+                                return a;
+                            } else {
+                                Swal.showValidationMessage(
+                                    'Jenis file salah'
+                                )
+                            }
+
+                            Swal.getCancelButton().setAttribute('style', 'display:block;')
+                            Swal.getConfirmButton().setAttribute('style', 'display:block;')
+                            $('.swal2-file').prop('readonly', 'false')
+
+                        },
+                        error: function (err) {
+                            Swal.getCancelButton().setAttribute('style', 'display:block;')
+                            Swal.getConfirmButton().setAttribute('style', 'display:block;')
+                            $('.swal2-file').prop('readonly', 'false')
+
+                            Swal.fire({
+                                title: '',
+                                text: 'Request failed',
+                                icon: 'error',
+                            })
+                        },
+                    })
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            Swal.getCancelButton().setAttribute('style', 'display:block;')
+            Swal.getConfirmButton().setAttribute('style', 'display:block;')
+            $('.swal2-file').prop('readonly', 'false')
+
+            console.log('import', result)
+            if (result.isConfirmed) {
+                const res = result.value
+                Swal.fire({
+                    title: 'File berhasil diimport',
+                    text: `Total: ${res.total}, Sukses: ${res.success}, Gagal: ${res.incomplete}, Duplikat: ${res.duplicate}`,
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'OK',
+                }).then(function () {
+                    location.reload();
+                })
+            }
+        });
+    }
+
+    function _detail(uid) {
+        $.ajax({
+            url: '/tabel-aset/detail/' + uid,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(res) {
+                console.log(res)
+                if (res.status === 'success') {
+                    //
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Data tidak ditemukan!"
+                    })
+                }
+            },
+            error: function() {
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan pada sistem!"
+                })
+            }
+        })
+    }
+
+    function _edit(uid) {
+        $.ajax({
+            url: '/tabel-aset/detail/' + uid,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(res) {
+                console.log(res)
+                if (res.status === 'success') {
+                    const data = res.data
+                    $('#modalTitle').text('Edit Data')
+                    $('#addForm').attr('action', '{{ route("aset.update") }}')
+
+                    $('#parameter').val(data.kode_parent).trigger('change')
+                    $('#nama').val(data.nama_barang)
+                    $('#merek').val(data.merek_barang)
+                    $('#tipe').val(data.type_barang)
+                    $('#ukuran').val(data.ukuran_barang)
+                    $('#bahan').val(data.bahan)
+                    $('#harga').val(data.harga_beli)
+                    $('#tahun').val(data.tahun_beli)
+                    $('#ruang').val(data.lokasi)
+                    if (data.kondisi_barang === 'b') {
+                        document.getElementById('baik').checked = true
+                    } else if (data.kondisi_barang === 'rr') {
+                        document.getElementById('ringan').checked = true
+                    } else if (data.kondisi_barang === 'rb') {
+                        document.getElementById('berat').checked = true
+                    }
+
+                    setTimeout(() => {
+                        $('#uraian').val(data.kode_utama).trigger('change')
+                    }, 3000);
+                    setTimeout(() => {
+                        $('#urutan').val((data.kode_urut < 9 ? ('00' + 1) : ((data.kode_urut > 9 && data.kode_urut < 99) ? ('0' + data.kode_urut) : data.kode_urut) ))
+                    }, 4000);
+
+                    const uid = document.getElementById('uuid')
+                    if (uid) {
+                        $('#uuid').val(res.uuid_barang)
+                    } else {
+                        $('#addForm').append(`<input type="hidden" name="uuid" id="uuid" value="${data.uuid_barang}" required>`)
+                    }
+
+                    const numeralMask = document.querySelectorAll('.numeral-mask');
+                    // Verification masking
+                    if (numeralMask.length) {
+                        numeralMask.forEach(e => {
+                            new Cleave(e, {
+                                numeral: true
+                            });
+                        });
+                    }
+
+                    $('#editUser').modal('show')
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Data tidak ditemukan!"
+                    })
+                }
+            },
+            error: function() {
+                Toast.fire({
+                    icon: "error",
+                    title: "Terjadi kesalahan pada sistem!"
+                })
+            }
+        })
+    }
+
+    function _delete(uid, name) {
+        Swal.fire({
+            title: "Hapus Data?",
+            html: "Anda yakin ingin menghapus <b>"+ name +"</b>?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Konfirmasi!",
+            cancelButtonText: 'Batalkan',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('aset.drop') }}",
+                    type: "POST",
+                    data: {uuid: uid},
+                    dataType: "JSON",
+                    success: function(res) {
+                        if (res.status === 'success') {
+                            Swal.fire({
+                                title: "Berhasil!",
+                                html: "<b>"+name+"</b> berhasil dihapus!.",
+                                icon: "success",
+                            }).then(function() {
+                                location.reload()
+                            })
+                        } else {
+                            Toast.fire({
+                                icon: "error",
+                                title: "Barang gagal dihapus!"
+                            })
+                        }
+                    },
+                    error: function() {
+                        Toast.fire({
+                            icon: "error",
+                            title: "Terjadi kesalahan pada sistem!"
+                        })
+                    }
+                })
+            }
+        });
+    }
+
+    function _params(val, id) {
+        $('#'+id).select2('close')
+        $('#urutan').val('')
+        $select = $('#uraian').data('select2').$container
+        $select.find('.select2-selection__placeholder').text('Mencari data...')
+
+        if (val) {
+            $.ajax({
+                url: '/tabel-aset/subdata/' + val,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function(res) {
+                    $('#uraian').empty().trigger("change")
+                    console.log(res.length, res)
+                    if (res && res.length > 0) {
+                        // var newOption = new Option('Pilih Uraian', '', false, false)
+                        // $('#uraian').append(newOption).trigger('change')
+                        res.forEach((r) => {
+                            var newOptions = new Option((r.kode_subdata +' - '+ r.uraian), r.uuid_subdata, false, false)
+                            $('#uraian').append(newOptions).trigger('change')
+                        })
+
+                        $select.find('.select2-selection__placeholder').text('Pilih Uraian')
+                        $('#uraian').val('').trigger('change')
+                    } else {
+                        $select.find('.select2-selection__placeholder').text('Pilih Kategori...')
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Terjadi kesalahan pada sistem!"
+                    })
+                }
+            })
+        }
+    }
+
+    function _setNumber(val, id) {
+        $('#urutan').val('')
+        if (val) {
+            $.ajax({
+                url: '{{ route("aset.number") }}',
+                type: 'POST',
+                data: {uuid: val},
+                dataType: 'JSON',
+                success: function(res) {
+                    const number = parseInt(res.last) + 1
+                    if (number < 9) {
+                        $('#urutan').val('00' + number)
+                    } else if (number > 9 && number < 99) {
+                        $('#urutan').val('0' + number)
+                    } else if (number > 99 && number < 1000) {
+                        $('#urutan').val(number)
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Terjadi kesalahan pada sistem!"
+                    })
+                }
+            })
+        }
+    }
+
+    function _test() {
+        Toast.fire({
+            icon: "error",
+            title: "Terjadi kesalahan pada sistem!"
+        })
     }
 </script>
 @endsection
