@@ -36,7 +36,7 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
                     $data = [
                         'uuid_barang'   => $uuid,
                         'kode_parent'   => $param->parent,
-                        'kode_utama'    => $row['kode'],
+                        'kode_utama'    => $param->uuid_subdata,
                         'kode_urut'     => intval($row['register']),
                         'uraian'        => $param->uraian,
                         'nama_barang'   => $row['nama'],

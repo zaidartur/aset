@@ -72,16 +72,16 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Laporan</span>
         </li>
-        <li class="menu-item">
-            <a href="index.html" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('report.aset') ? 'active' : '' }}">
+            <a href="{{ route('report.aset') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
                 <div data-i18n="Laporan Aset">Laporan Aset</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="page-2.html" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('report.label') }}">
+            <a href="{{ route('report.label') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
-                <div data-i18n="Stiker Aset">Stiker Aset</div>
+                <div data-i18n="Labeling Aset">Labeling Aset</div>
             </a>
         </li>
 

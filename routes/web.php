@@ -5,6 +5,7 @@ use App\Http\Controllers\BahanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterDataController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
@@ -51,6 +52,13 @@ Route::prefix('/sub-parameter')->middleware(['auth'])->group(function() {
     Route::post('/import-data', [MasterDataController::class, 'import_datasub'])->name('subparameter.import');
 });
 
+Route::prefix('/report')->middleware(['auth'])->group(function() {
+    Route::get('/aset', [ReportController::class, 'index'])->name('report.aset');
+    Route::get('/label', [ReportController::class, 'labeling'])->name('report.label');
+    Route::get('/ekspor-aset', [ReportController::class, 'export'])->name('report.aset.export');
+    Route::get('/print-aset', [ReportController::class, 'print_aset'])->name('report.aset.print');
+    Route::get('/server-side', [ReportController::class, 'serverside'])->name('report.aset.ss');
+});
 // Route::prefix('/master-bahan')->middleware(['auth'])->group(function() {
 //     Route::get('/detail-bahan/{uid}', [BahanController::class, 'detail'])->name('bahan.detail');
 

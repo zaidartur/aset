@@ -15,7 +15,7 @@ class AsetData extends Model
      */
     public function subdata(): BelongsTo
     {
-        return $this->belongsTo(MasterSubdata::class, 'uuid_utama', 'uuid_subdata');
+        return $this->belongsTo(MasterSubdata::class, 'kode_utama', 'uuid_subdata');
     }
 
     /**
