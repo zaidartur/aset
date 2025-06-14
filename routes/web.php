@@ -58,6 +58,7 @@ Route::prefix('/report')->middleware(['auth'])->group(function() {
     Route::get('/ekspor-aset', [ReportController::class, 'export'])->name('report.aset.export');
     Route::get('/print-aset', [ReportController::class, 'print_aset'])->name('report.aset.print');
     Route::get('/server-side', [ReportController::class, 'serverside'])->name('report.aset.ss');
+    Route::get('/server-side-label', [ReportController::class, 'serverside_label'])->name('report.label.ss');
 });
 // Route::prefix('/master-bahan')->middleware(['auth'])->group(function() {
 //     Route::get('/detail-bahan/{uid}', [BahanController::class, 'detail'])->name('bahan.detail');

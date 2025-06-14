@@ -31,138 +31,11 @@
                         <th style="width: 5%;">Tahun Pembelian</th>
                         <th style="width: 15%;">Ruang</th>
                         <th style="width: 10%;">Kondisi</th>
-                        <th style="width: 20%;">Keterangan</th>
+                        <th style="width: 20%;">Kode</th>
                         <th style="width: 15%;">Opsi</th>
                     </tr>
                 </thead>
             </table>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-xl modal-simple modal-edit-user">
-        <div class="modal-content p-3 p-md-5">
-            <div class="modal-body">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="text-center mb-4">
-                    <h3 class="mb-2" id="modalTitle">Tambah Data</h3>
-                    <p class="text-muted">&nbsp;</p>
-                </div>
-
-                <form id="addForm" class="row g-3" method="POST" action="#">
-                    @csrf
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="parameter">Kategori</label>
-                        <select id="parameter" name="parameter" class="select2 form-select" data-allow-clear="true" aria-label="Pilih Kategori" onchange="_params(this.value, this.id)">
-                            @if (count($params) > 0)
-                                <option value="">Pilih Kategori</option>
-                                @foreach ($params as $param)
-                                    <option value="{{ $param->uuid_aset }}">{{ $param->kode_aset }} - {{ $param->uraian }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label" for="uraian">Uraian</label>
-                        <select id="uraian" name="uraian" class="select2 form-select" data-allow-clear="true" aria-label="Pilih Kategori dahulu" onchange="_setNumber(this.value, this.id)">
-                            <option value="" selected>Pilih Kategori</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="urutan">Kode Urut (otomatis)</label>
-                        <input type="text" id="urutan" name="urutan" class="form-control" placeholder="000" required readonly />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="nama">Nama Barang</label>
-                        <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama Barang" required />
-                    </div>
-                    
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="merek">Merek Barang</label>
-                        <input type="text" id="merek" name="merek" class="form-control" placeholder="Nama merek" required />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="tipe">Tipe Barang</label>
-                        <input type="text" id="tipe" name="tipe" class="form-control" placeholder="Jenis/Tipe" />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="ukuran">Ukuran/Dimensi</label>
-                        <input type="text" id="ukuran" name="ukuran" class="form-control" placeholder="Ukuran barang" />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="bahan">Bahan</label>
-                        <input type="text" id="bahan" name="bahan" class="form-control" placeholder="Bahan utama" required />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="harga">Harga Pembelian</label>
-                        {{-- <input type="text" id="ukuran" name="ukuran" class="form-control numeral-mask" placeholder="Harga barang" /> --}}
-                        <div class="input-group input-group-merge">
-                            <span class="input-group-text">Rp</span>
-                            <input type="text" class="form-control numeral-mask" id="harga" name="harga" placeholder="Nominal harga" required>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="tahun">Tahun Pembelian</label>
-                        <input type="text" id="tahun" name="tahun" class="form-control" placeholder="{{ date('Y') }}" required />
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <label class="form-label" for="ruang">Ruang/Lokasi</label>
-                        <input type="text" id="ruang" name="ruang" class="form-control" placeholder="Lokasi barang" required />
-                    </div>
-                    <div class="col-12 row g-3">
-                        <label for="">Kondisi Barang</label>
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon">
-                                <label class="form-check-label custom-option-content" for="baik">
-                                    <span class="custom-option-body">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.336"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.1" d="M13.8179 4.54512L13.6275 4.27845C12.8298 3.16176 11.1702 3.16176 10.3725 4.27845L10.1821 4.54512C9.76092 5.13471 9.05384 5.45043 8.33373 5.37041L7.48471 5.27608C6.21088 5.13454 5.13454 6.21088 5.27608 7.48471L5.37041 8.33373C5.45043 9.05384 5.13471 9.76092 4.54512 10.1821L4.27845 10.3725C3.16176 11.1702 3.16176 12.8298 4.27845 13.6275L4.54512 13.8179C5.13471 14.2391 5.45043 14.9462 5.37041 15.6663L5.27608 16.5153C5.13454 17.7891 6.21088 18.8655 7.48471 18.7239L8.33373 18.6296C9.05384 18.5496 9.76092 18.8653 10.1821 19.4549L10.3725 19.7215C11.1702 20.8382 12.8298 20.8382 13.6275 19.7215L13.8179 19.4549C14.2391 18.8653 14.9462 18.5496 15.6663 18.6296L16.5153 18.7239C17.7891 18.8655 18.8655 17.7891 18.7239 16.5153L18.6296 15.6663C18.5496 14.9462 18.8653 14.2391 19.4549 13.8179L19.7215 13.6275C20.8382 12.8298 20.8382 11.1702 19.7215 10.3725L19.4549 10.1821C18.8653 9.76092 18.5496 9.05384 18.6296 8.33373L18.7239 7.48471C18.8655 6.21088 17.7891 5.13454 16.5153 5.27608L15.6663 5.37041C14.9462 5.45043 14.2391 5.13471 13.8179 4.54512Z" fill="#2d8227"></path> <path d="M13.8179 4.54512L13.6275 4.27845C12.8298 3.16176 11.1702 3.16176 10.3725 4.27845L10.1821 4.54512C9.76092 5.13471 9.05384 5.45043 8.33373 5.37041L7.48471 5.27608C6.21088 5.13454 5.13454 6.21088 5.27608 7.48471L5.37041 8.33373C5.45043 9.05384 5.13471 9.76092 4.54512 10.1821L4.27845 10.3725C3.16176 11.1702 3.16176 12.8298 4.27845 13.6275L4.54512 13.8179C5.13471 14.2391 5.45043 14.9462 5.37041 15.6663L5.27608 16.5153C5.13454 17.7891 6.21088 18.8655 7.48471 18.7239L8.33373 18.6296C9.05384 18.5496 9.76092 18.8653 10.1821 19.4549L10.3725 19.7215C11.1702 20.8382 12.8298 20.8382 13.6275 19.7215L13.8179 19.4549C14.2391 18.8653 14.9462 18.5496 15.6663 18.6296L16.5153 18.7239C17.7891 18.8655 18.8655 17.7891 18.7239 16.5153L18.6296 15.6663C18.5496 14.9462 18.8653 14.2391 19.4549 13.8179L19.7215 13.6275C20.8382 12.8298 20.8382 11.1702 19.7215 10.3725L19.4549 10.1821C18.8653 9.76092 18.5496 9.05384 18.6296 8.33373L18.7239 7.48471C18.8655 6.21088 17.7891 5.13454 16.5153 5.27608L15.6663 5.37041C14.9462 5.45043 14.2391 5.13471 13.8179 4.54512Z" stroke="#2d8227" stroke-width="1.3679999999999999" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 12L10.8189 13.8189V13.8189C10.9189 13.9189 11.0811 13.9189 11.1811 13.8189V13.8189L15 10" stroke="#2d8227" stroke-width="1.3679999999999999" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-
-                                        <span class="custom-option-title"> Baik </span>
-                                        <small> Tidak ada kerusakan pada barang </small>
-                                    </span>
-                                    <input name="kondisi" class="form-check-input" type="radio" value="b" id="baik" required>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon">
-                                <label class="form-check-label custom-option-content" for="ringan">
-                                    <span class="custom-option-body">
-                                        <svg fill="#ca6716" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 496 496" xml:space="preserve" stroke="#ca6716" stroke-width="10.416"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <g> <path d="M256,160V0h-43.744l-47.08,56.496l31.096,31.088l-83.144,72.064l33.344-66.688l-40-24L140.944,0H0v160 c0,61.448,44.24,114.248,104,125.616V448H75.776c-25.12,0-47.696,13.952-58.936,36.424L11.056,496H232h12.944H496V160H256z M288,176h48v96h-48V176z M39.128,480c9.288-10.096,22.432-16,36.656-16H120V271.816l-6.944-0.928 C57.728,263.488,16,215.824,16,160V16h99.056l-29.52,59.048l40,24L62.872,224.36L219.728,88.424l-32.904-32.912L219.744,16H240 v144c0,55.824-41.728,103.488-97.056,110.88L136,271.816V464h44.224c14.224,0,27.368,5.904,36.656,16H39.128z M480,480H236.552 c-11.88-19.8-32.944-32-56.328-32H152V285.616c54.488-10.36,95.96-55.208,102.872-109.616H272v112h80V176h128V480z"></path> <rect x="448" y="448" width="16" height="16"></rect> <rect x="416" y="448" width="16" height="16"></rect> <rect x="384" y="448" width="16" height="16"></rect> <rect x="448" y="416" width="16" height="16"></rect> <rect x="448" y="384" width="16" height="16"></rect> <rect x="416" y="416" width="16" height="16"></rect> </g> </g> </g> </g></svg>
-
-                                        <span class="custom-option-title"> Rusak Ringan </span>
-                                        <small> Terdapat kerusakan minor pada barang </small>
-                                    </span>
-                                    <input name="kondisi" class="form-check-input" type="radio" value="rr" id="ringan" required>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md mb-md-0 mb-3">
-                            <div class="form-check custom-option custom-option-icon">
-                                <label class="form-check-label custom-option-content" for="berat">
-                                    <span class="custom-option-body">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.1" d="M10.2501 5.147L3.64909 17.0287C2.9085 18.3618 3.87244 20 5.39741 20H18.5994C20.1243 20 21.0883 18.3618 20.3477 17.0287L13.7467 5.147C12.9847 3.77538 11.0121 3.77538 10.2501 5.147Z" fill="#b41313"></path> <path d="M12 10V13" stroke="#b41313" stroke-width="2.112" stroke-linecap="round"></path> <path d="M12 16V15.9888" stroke="#b41313" stroke-width="2.112" stroke-linecap="round"></path> <path d="M10.2515 5.147L3.65056 17.0287C2.90997 18.3618 3.8739 20 5.39887 20H18.6008C20.1258 20 21.0897 18.3618 20.3491 17.0287L13.7482 5.147C12.9861 3.77538 11.0135 3.77538 10.2515 5.147Z" stroke="#b41313" stroke-width="2.112" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-
-                                        <span class="custom-option-title"> Rusak Berat </span>
-                                        <small> Barang tidak bisa digunakan </small>
-                                    </span>
-                                    <input name="kondisi" class="form-check-input" type="radio" value="rb" id="berat" required>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label" for="keterangan">Keterangan</label>
-                        <textarea name="keterangan" id="keterangan" cols="30" rows="5" class="form-control"></textarea>
-                    </div>
-
-                    <div class="col-12 text-center">
-                          <button type="submit" class="btn btn-success me-sm-3 me-1"><i class="ti ti-device-floppy"></i>&nbsp; Simpan</button>
-                          <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="ti ti-circle-x"></i>&nbsp; Batalkan</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 </div>
@@ -185,8 +58,6 @@
 <script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 <script src="{{ asset('') }}assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
 
-<script src="{{ asset('') }}assets/js/data-aset-validation.js"></script>
-
 <script>
     let tb_aset
     $(document).ready(function() {
@@ -207,7 +78,7 @@
                 serverSide: true,
                 paging: true,
                 ajax: {
-                    url: '{{ route("aset.ss") }}',
+                    url: '{{ route("report.label.ss") }}',
                 },
                 columns: [
                     { data: null },
@@ -216,7 +87,7 @@
                     { data: 'tahun' },
                     { data: 'ruang' },
                     { data: 'kondisi' },
-                    { data: 'keterangan' },
+                    { data: 'kode' },
                     { data: 'opsi' },
                 ],
                 columnDefs: [
