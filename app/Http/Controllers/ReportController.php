@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AsetData;
+use App\Models\MasterData;
+use App\Models\MasterSubdata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -19,7 +21,11 @@ class ReportController extends Controller
 
     public function labeling()
     {
-        $data = [];
+        $data = [
+            'lists'     => AsetData::with(['subdata', 'parameter'])->get(),
+            'params'    => MasterData::all(),
+            'subdata'   => MasterSubdata::all(),
+        ];
 
         return view('main.print_aset', $data);
     }
@@ -50,7 +56,7 @@ class ReportController extends Controller
 
             $data[] = [
                 'jenis'             => $value->uraian,
-                'nama_barang'       => $value->nama_barang,
+                'nama_barang'       => '<button class="btn btn-info btn-round onclick="_detail(`'.base64_encode($value).'`)">' . $value->nama_barang . '</button>',
                 'merek_barang'      => (count($merek) > 1 ? 'Variatif' : $merek[0]),
                 'ukuran'            => $value->ukuran_barang,
                 'bahan'             => $value->bahan,
@@ -116,7 +122,7 @@ class ReportController extends Controller
 
             $data[] = [
                 'jenis'             => $value->uraian,
-                'nama'              => $value->nama_barang,
+                'nama'              => '<div class="col-12"><button class="btn btn-outline-success btn-block btn-sm col-12" onclick="_detail(`'.base64_encode($value).'`, `'. base64_encode($isi) .'`, `Rp'. number_format(array_sum($harga)) .'`)" title="Klik untuk melihat detail data"><i class="ti ti-info-square-rounded"></i>&nbsp;' . $value->nama_barang . '</button></div>',
                 'merek'             => (count($merek) > 1 ? 'Variatif' : $merek[0]),
                 'ukuran'            => $value->ukuran_barang,
                 'bahan'             => $value->bahan,

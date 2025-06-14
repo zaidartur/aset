@@ -6,16 +6,16 @@
                 <script>
                     document.write(new Date().getFullYear());
                 </script>
-                , made with ❤️ by <a href="https://pixinvent.com" target="_blank" class="fw-medium">Pixinvent</a>
+                , made with ❤️ by <a href="https://github.com/zaidartur" target="_blank" class="fw-medium">Zaid Artur</a>
             </div>
-            <div class="d-none d-lg-inline-block">
+            {{-- <div class="d-none d-lg-inline-block">
                 <a
                     href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation/"
                     target="_blank"
                     class="footer-link me-4"
                     >Documentation</a
                 >
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>

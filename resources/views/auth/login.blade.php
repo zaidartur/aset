@@ -59,7 +59,7 @@
                         <div class="card-body">
                             <!-- Logo -->
                             <div class="app-brand justify-content-center mb-4 mt-2">
-                                <a href="index.html" class="app-brand-link gap-2">
+                                <a href="/" class="app-brand-link gap-2">
                                     <span class="app-brand-logo demo">
                                         <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -86,7 +86,7 @@
                                                 fill="#7367F0" />
                                         </svg>
                                     </span>
-                                    <span class="app-brand-text demo text-body fw-bold ms-1">Vuexy</span>
+                                    <span class="app-brand-text demo text-body fw-bold ms-1">ASET</span>
                                 </a>
                             </div>
                             <!-- /Logo -->
