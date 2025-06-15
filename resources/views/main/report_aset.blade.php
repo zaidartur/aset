@@ -129,6 +129,10 @@
 <script src="{{ asset('') }}assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js"></script>
 <script src="{{ asset('') }}assets/vendor/libs/bs-stepper/bs-stepper.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/locale/id.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
     let tb_aset
     var dt_basic_table = $('#tb_aset'),
@@ -356,7 +360,7 @@
                                 <td>${ob.harga_beli.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}</td>
                                 <td>${ob.kondisi_barang === 'b' ? ('Baik') : (ob.kondisi_barang === 'rr' ? ('Rusak Ringan') : ('Rusak Berat'))}</td>
                                 <td>${ob.keterangan}</td>
-                                <td>${ob.updated_at ?? ob.created_at}</td>
+                                <td>${ob.updated_at ? (moment(ob.updated_at).format('DD MMM YYYY')) : (moment(ob.created_at).format('DD MMM YYYY'))}</td>
                             </tr>`
                 })
             }

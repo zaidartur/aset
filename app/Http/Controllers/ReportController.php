@@ -22,7 +22,7 @@ class ReportController extends Controller
     public function labeling()
     {
         $data = [
-            'lists'     => AsetData::with(['subdata', 'parameter'])->get(),
+            'lists'     => AsetData::count(),
             'params'    => MasterData::all(),
             'subdata'   => MasterSubdata::all(),
         ];
@@ -79,7 +79,13 @@ class ReportController extends Controller
 
     public function print_aset()
     {
-        //
+        $request = Request();
+        $array = explode(',', base64_decode($request->uuid));
+        $data = [
+            'lists' => $array ?? [],
+        ];
+
+        return view('main.print_template', $data);
     }
 
     public function serverside()
@@ -193,9 +199,14 @@ class ReportController extends Controller
                 'ruang'         => $value->lokasi,
                 'kondisi'       => $kondisi,
                 'keterangan'    => $value->keterangan,
+                'checkbox'      => '<div class="checkbox"><input class="form-check-input select-print" type="checkbox" id="check_' . $value->uuid_barang . '" onclick="checkcheckbox();" value="' . $value->uuid_barang . '"/><label for="check_' . $value->uuid_barang . '">&nbsp;</label></div>',
                 'opsi'          => '<button type="button" class="btn rounded-pill btn-icon btn-info waves-effect waves-light" onclick="_detail(`'. $value->uuid_barang .'`)" title="Detail Barang"><i class="ti ti-info-circle"></i></button>' .
                                     '&nbsp;&nbsp;' .
-                                    '<button type="button" class="btn rounded-pill btn-icon btn-warning waves-effect waves-light" onclick="_print(`'. $value->uuid_barang .'`)" title="Print Barang"><i class="ti ti-printer"></i></button>'
+                                    '<button type="button" id="printItem" class="btn rounded-pill btn-warning waves-effect waves-light dropdown-toggle" title="Print Barang" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-printer"></i></button>
+                                    <div class="dropdown-menu" aria-labelledby="printItem" style="">
+                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. $value->uuid_barang .'`, `big`)">Ukuran Besar</a>
+                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. $value->uuid_barang .'`, `small`)">Ukuran Kecil</a>
+                                    </div>'
             ];
         }
 
