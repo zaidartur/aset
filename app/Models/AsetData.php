@@ -25,6 +25,6 @@ class AsetData extends Model
      */
     public function parameter(): BelongsTo
     {
-        return $this->belongsTo(MasterData::class, 'kode_parent', 'kode_aset');
+        return $this->belongsTo(MasterData::class, 'kode_parent', 'uuid_aset');
     }
 }

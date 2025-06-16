@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\AsetData;
 use App\Models\MasterData;
 use App\Models\MasterSubdata;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ReportController extends Controller
 {
@@ -80,12 +83,85 @@ class ReportController extends Controller
     public function print_aset()
     {
         $request = Request();
-        $array = explode(',', base64_decode($request->uuid));
+        if ($request->uuid == 'all') {
+            $array = AsetData::with(['subdata'])->get();
+        } else {
+            $exp = explode(',', base64_decode($request->uuid));
+            $array = AsetData::with(['subdata'])->whereIn('uuid_barang', $exp)->get();
+        }
+
+        // converting image
+        $path = public_path('assets/img/logo-kra.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        foreach ($array as $key => $value) {
+            if (!empty($value->updated_at)) {
+                $tgl = $value->updated_at;
+            } else {
+                $tgl = $value->created_at;
+            }
+            $xkode = explode('.', $value->subdata->kode_subdata);
+            $implode = '';
+            foreach ($xkode as $c => $code) {
+                if ($c < 3) {
+                    $implode .= $code . '.';
+                } elseif ($c == 3) {
+                    if (intval($code) < 9) {
+                        $implode .= '0' . $code . '.';
+                    } else {
+                        $implode .= $code . '.';
+                    }
+                } else {
+                    if (intval($code) < 9) {
+                        $implode .= '00' . $code . '.';
+                    } elseif (intval($code) > 9 && intval($code) < 99) {
+                        $implode .= '0' . $code . '.';
+                    } else {
+                        $implode .= $code . '.';
+                    }
+                }
+            }
+
+            if (intval($value->kode_urut) < 9) {
+                $implode .= '00' . $value->kode_urut;
+            } elseif (intval($value->kode_urut) > 9 && intval($value->kode_urut) < 99) {
+                $implode .= '0' . $value->kode_urut;
+            } else {
+                $implode .= $value->kode_urut;
+            }
+
+            $text = 'UUID : ' . $value->uuid_barang .
+                    "\n" . 'Kode Barang : ' . $implode .
+                    "\n" . 'Nama Barang : ' . $value->nama_barang .
+                    "\n" . 'Merek Barang : ' . $value->merek_barang .
+                    "\n" . 'Ruangan : ' . $value->lokasi .
+                    "\n" . 'Update Terakhir : ' . Carbon::parse($tgl)->isoFormat('LL');
+
+            $value->kode = $implode;
+            $value->qrcode = base64_encode(QrCode::size(120)
+                            ->format('svg')
+                            ->style('square')
+                            ->errorCorrection('L')
+                            ->generate($text));
+        }        
+
         $data = [
             'lists' => $array ?? [],
+            'logo'  => $base64,
+            // 'qrcode'=> $qrcode,
+            'size'  => $request->size,
         ];
 
-        return view('main.print_template', $data);
+        // return view('main.print_template', $data);
+        $pdf = Pdf::loadView('main.print_template', $data)->setPaper('A4', 'portrait')->setOption([
+            'fontDir'       => public_path('/assets/fonts/PlusJakartaSans/Fonts/OTF/'),
+            'fontCache'     => public_path('/assets/fonts/PlusJakartaSans/Fonts/OTF/'),
+            'defaultFont'   => 'Plus Jakarta Sans',
+        ]);
+
+        return $pdf->stream();
     }
 
     public function serverside()
@@ -204,8 +280,8 @@ class ReportController extends Controller
                                     '&nbsp;&nbsp;' .
                                     '<button type="button" id="printItem" class="btn rounded-pill btn-warning waves-effect waves-light dropdown-toggle" title="Print Barang" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-printer"></i></button>
                                     <div class="dropdown-menu" aria-labelledby="printItem" style="">
-                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. $value->uuid_barang .'`, `big`)">Ukuran Besar</a>
-                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. $value->uuid_barang .'`, `small`)">Ukuran Kecil</a>
+                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. base64_encode($value) .'`, `big`)">Ukuran Besar</a>
+                                        <a class="dropdown-item waves-effect" href="javascript:void(0);" onclick="_print(`'. base64_encode($value) .'`, `small`)">Ukuran Kecil</a>
                                     </div>'
             ];
         }
