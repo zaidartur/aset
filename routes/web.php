@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AsetDataController;
 use App\Http\Controllers\BahanController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterDataController;
@@ -69,6 +70,20 @@ Route::prefix('/report')->middleware(['auth'])->group(function() {
 //     Route::post('/import-data', [BahanController::class, 'import_data'])->name('bahan.import');
 // });
 
-Route::prefix('/pengaturan')->middleware(['auth'])->group(function() {
-    Route::get('/', [SettingController::class, 'pengaturan'])->name('setting');
+Route::prefix('/profile')->middleware(['auth'])->group(function() {
+    Route::get('/', [HomeController::class, 'profile'])->name('profile');
+
+    Route::post('/update-profile', [HomeController::class, 'update_profile'])->name('profile.update');
 });
+
+Route::prefix('/users')->middleware(['auth'])->group(function() {
+    Route::get('/', [HomeController::class, 'user_list'])->name('users');
+
+    Route::post('/save', [HomeController::class, 'user_save'])->name('users.save');
+    Route::get('/update', [HomeController::class, 'user_update'])->name('users.update');
+    Route::get('/delete', [HomeController::class, 'user_delete'])->name('users.delete');
+});
+
+// Route::prefix('/pengaturan')->middleware(['auth'])->group(function() {
+//     Route::get('/', [SettingController::class, 'pengaturan'])->name('setting');
+// });

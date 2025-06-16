@@ -89,14 +89,14 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Pengaturan</span>
         </li>
-        <li class="menu-item">
-            <a href="index.html" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+        <li class="menu-item {{ request()->routeIs('profile') ? 'active' : '' }}">
+            <a href="{{route('profile')}}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-user-check"></i>
                 <div data-i18n="Profile">Profile</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="page-2.html" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('users') ? 'active' : '' }}">
+            <a href="{{ route('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
                 <div data-i18n="Data User">Data User</div>
             </a>

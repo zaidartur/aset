@@ -25,4 +25,36 @@ class HomeController extends Controller
     {
         return view('main.home');
     }
+
+    public function profile()
+    {
+        $data = [];
+        return view('main.profile', $data);
+    }
+
+    public function user_list()
+    {
+        $data = [];
+        return view('main.setting', $data);
+    }
+
+    public function update_profile(Request $request)
+    {
+        //
+    }
+
+    public function user_save(Request $request)
+    {
+        //
+    }
+
+    public function user_update(Request $request)
+    {
+        //
+    }
+
+    public function user_delete(Request $request)
+    {
+        //
+    }
 }
