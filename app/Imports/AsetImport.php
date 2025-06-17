@@ -28,16 +28,26 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
     {
         $this->total = count($rows);
         foreach ($rows as $key => $row) {
-            if (!empty($row['nama']) && !empty($row['merek']) && !empty($row['lokasi']) && !empty($row['kode']) && !empty($row['register']) && !empty($row['tahun']) && !empty($row['harga']) && !empty($row['kondisi'])) {
+            if (!empty($row['nama']) && !empty($row['merek']) && !empty($row['lokasi']) && !empty($row['kode']) && !empty($row['tahun']) && !empty($row['harga']) && !empty($row['kondisi'])) {
                 $uuid = Uuid::uuid4()->toString();
-                $cek  = MasterSubdata::where('kode_subdata', $row['kode'])->get();
+                $cek  = MasterSubdata::where('kode_subdata', str_replace(' ', '', $row['kode']))->get();
                 if (count($cek) > 0) {
                     $param = $cek[0];
+
+                    // get register
+                    $reg = AsetData::where('kode_utama', $param->uuid_subdata)->where('tahun_beli', intval($row['tahun']))->orderBy('kode_urut')->first();
+                    if ($reg) {
+                        $kode = intval($reg->kode_urut) + 1;
+                    } else {
+                        $kode = 1;
+                    }
+
                     $data = [
                         'uuid_barang'   => $uuid,
                         'kode_parent'   => $param->parent,
                         'kode_utama'    => $param->uuid_subdata,
-                        'kode_urut'     => intval($row['register']),
+                        // 'kode_urut'     => intval($row['register']),
+                        'kode_urut'     => $kode,
                         'uraian'        => $param->uraian,
                         'nama_barang'   => $row['nama'],
                         'merek_barang'  => $row['merek'],
