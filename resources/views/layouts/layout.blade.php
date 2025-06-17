@@ -63,6 +63,10 @@
         </div>
         <!-- / Layout wrapper -->
 
+        <form action="{{ route('logout') }}" method="POST" id="logout">
+            @csrf
+        </form>
+
         @include('layouts.js')
         @yield('js')
     </body>
