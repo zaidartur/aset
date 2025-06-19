@@ -26,7 +26,7 @@
                         d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
                         fill="#7367F0" />
                 </svg> --}}
-                <img src="{{ asset('assets/img/logo_diskominfo.svg') }}" alt="Logo" class="" style="width: auto; height: 64px;">
+                <img src="{{ asset('assets/img/logo.svg') }}" alt="Logo" class="" style="width: auto; height: 25px;">
             </span>
             <span class="app-brand-text demo menu-text fw-bold">ASET</span>
         </a>
@@ -95,12 +95,12 @@
                 <div data-i18n="Profile">Profile</div>
             </a>
         </li>
-        <li class="menu-item {{ request()->routeIs('users') ? 'active' : '' }}">
+        {{-- <li class="menu-item {{ request()->routeIs('users') ? 'active' : '' }}">
             <a href="{{ route('users') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-app-window"></i>
                 <div data-i18n="Data User">Data User</div>
             </a>
-        </li>
+        </li> --}}
         <li class="menu-item">
             <a href="javascript:void(0)" class="menu-link" onclick="_logout()">
                 <i class="menu-icon tf-icons ti ti-logout"></i>

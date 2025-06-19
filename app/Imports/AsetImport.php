@@ -56,7 +56,7 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
                         'bahan'         => $row['bahan'] ?? '-',
                         'harga_beli'    => intval($row['harga']),
                         'tahun_beli'    => $row['tahun'],
-                        'lokasi'        => $row['lokasi'],
+                        'lokasi'        => strtoupper($row['lokasi']),
                         'kondisi_barang'=> strtolower($row['kondisi']),
                         'keterangan'    => $row['keterangan'] ?? null,
                         'user_id'       => Auth::user()->uuid,

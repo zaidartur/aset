@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label" for="ruang">Ruang/Lokasi</label>
-                        <input type="text" id="ruang" name="ruang" class="form-control" placeholder="Lokasi barang" required />
+                        <input type="text" id="ruang" name="ruang" class="form-control" placeholder="Lokasi barang" style="text-transform: uppercase;" required />
                     </div>
                     <div class="col-12 row g-3">
                         <label for="">Kondisi Barang</label>

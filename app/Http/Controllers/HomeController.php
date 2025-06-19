@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AsetData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +26,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('main.home');
+        $years = AsetData::groupBy('tahun_beli')->select('tahun_beli')->orderBy('tahun_beli', 'desc')->limit(3)->get();
+        $countyear = [];
+        foreach ($years as $key => $value) {
+            $countyear[] = [
+                'tahun'     => $value->tahun_beli,
+                'jumlah'    => AsetData::where('tahun_beli', $value->tahun_beli)->count(),
+            ];
+        }
+        $before = AsetData::where('tahun_beli', (date('Y') - 1))->count();
+        $total  = AsetData::count();
+
+        $data = [
+            'total'     => $total,
+            'widget'    => $countyear,
+            'diff'      => (($total-$before)),
+            'charts'    => $this->sebaran(),
+            'cond'      => $this->kondisi(),
+        ];
+
+        return view('main.home', $data);
     }
 
     public function profile()
@@ -84,5 +104,38 @@ class HomeController extends Controller
     public function user_delete(Request $request)
     {
         //
+    }
+
+    public function sebaran()
+    {
+        $locate = AsetData::groupBy('lokasi')->select('lokasi')->orderBy('lokasi')->get();
+
+        if (count($locate) > 0) {
+            $data = [];
+            $total = 0;
+            foreach ($locate as $key => $value) {
+                $count  = AsetData::where('lokasi', $value->lokasi)->count();
+                $total  = $total + $count;
+                
+                $data[] = [
+                    'label'     => $value->lokasi,
+                    'value'     => $count,
+                ];
+            }
+
+            return ['total' => $total, 'data' => $data];
+        } else {
+            return [];
+        }
+    }
+
+    public function kondisi()
+    {
+        $baik   = AsetData::where('kondisi_barang', 'b')->count();
+        $ringan = AsetData::where('kondisi_barang', 'rr')->count();
+        $berat  = AsetData::where('kondisi_barang', 'rb')->count();
+        $total  = AsetData::count();
+
+        return ['baik' => $baik, 'ringan' => $ringan, 'berat' => $berat, 'jumlah' => $total];
     }
 }
