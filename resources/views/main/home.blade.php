@@ -301,7 +301,7 @@ $(document).ready(function() {
                     fontSize: '13px'
                 },
                 formatter: function (value) {
-                    return value + " data";
+                    return value + "";
                 }
             }
         }
