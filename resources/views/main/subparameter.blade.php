@@ -521,6 +521,10 @@
         })
     }
 
+    function _template() {
+        window.open('{{ asset("uploads/templates/template_subparam.xlsx") }}', '_blank')
+    }
+
     function _delete(uid) {
         Swal.fire({
             title: "Hapus Data?",

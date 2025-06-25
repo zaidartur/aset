@@ -738,6 +738,10 @@
         });
     }
 
+    function _template() {
+        window.open('{{ asset("uploads/templates/data_template.xlsx") }}', '_blank')
+    }
+
     function _params(val, id) {
         $('#'+id).select2('close')
         $('#urutan').val('')

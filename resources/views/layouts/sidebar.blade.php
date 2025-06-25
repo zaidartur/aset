@@ -53,6 +53,12 @@
                 <div data-i18n="Tabel Data">Tabel Data</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('aset.paket') ? 'active' : '' }}">
+            <a href="{{ route('aset.paket') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <div data-i18n="Tabel Paket">Tabel Paket</div>
+            </a>
+        </li>
 
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Master Data</span>
