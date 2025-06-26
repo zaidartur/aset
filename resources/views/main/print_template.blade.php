@@ -220,8 +220,8 @@
 
     @elseif ($size == 'small')
 
-        @if (count($lists) > 12)
-            @foreach (collect($lists)->chunk(39) as $items)
+        @if (count($lists) > 36)
+            @foreach (collect($lists)->chunk(36) as $items)
                 <table style="width: 100%">
                     @foreach (collect($items)->chunk(3) as $item)
                         <tr>
