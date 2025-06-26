@@ -36,12 +36,22 @@
         }
 
         .tb_bordered {
-            border: 7px solid #00B0F0;
+            border: 5px solid #00B0F0;
             border-collapse: collapse;
         }
 
         .tb_bordered td {
-            border: 7px solid #00B0F0;
+            border: 5px solid #00B0F0;
+            border-collapse: collapse;
+        }
+
+        .tb_bordered_small {
+            border: 4px solid #00B0F0;
+            border-collapse: collapse;
+        }
+
+        .tb_bordered_small td {
+            border: 4px solid #00B0F0;
             border-collapse: collapse;
         }
 
@@ -104,7 +114,7 @@
 </head>
 <body>
     @if ($size == 'big')
-        @if (count($lists) > 18)
+        @if (count($lists) > 16)
             @foreach (collect($lists)->chunk(16) as $items)
                 <table style="width: 100%">
                     @foreach (collect($items)->chunk(2) as $item)
@@ -114,7 +124,7 @@
                                 <div class="">
                                     <table style="width: 100%">
                                         <tr style="margin: 15px;">
-                                            <td style="width: 20%; border: 0.6px solid black; vertical-align: top; text-align: center; padding: 0.5em;">
+                                            <td style="width: 20%; border: 0px solid black; vertical-align: top; text-align: center; padding: 0.5em;">
                                                 <img src="{{ $logo }}" alt="logo" style="height: auto; width: 27px;">
                                                 <br>
                                                 <label style="font-size: 3pt;">&nbsp;<br></label>
@@ -216,7 +226,7 @@
                     @foreach (collect($items)->chunk(3) as $item)
                         <tr>
                             @foreach ($item as $value)
-                            <td style="width: {{ 100/3 }}%;" class="tb_bordered">
+                            <td style="width: {{ 100/3 }}%;" class="tb_bordered_small">
                                 <div class="">
                                     <table style="width: 100%">
                                         <tr style="margin: 20px;">
@@ -258,7 +268,7 @@
                 @foreach (collect($lists)->chunk(3) as $i => $items)
                     <tr>
                         @foreach ($items as $item)
-                        <td style="width: {{ 100/3 }}%;" class="tb_bordered">
+                        <td style="width: {{ 100/3 }}%;" class="tb_bordered_small">
                             <div class="">
                                 <table style="width: 100%">
                                     <tr style="margin: 20px;">
@@ -291,14 +301,14 @@
                         </td>
                         @endforeach
                         @if (count($lists) == 1)
-                        <td style="width: {{ 100/3 }}%;" class="tb_bordered">
+                        <td style="width: {{ 100/3 }}%;" class="tb_bordered_small">
                             &nbsp;
                         </td>
-                        <td style="width: {{ 100/3 }}%;" class="tb_bordered">
+                        <td style="width: {{ 100/3 }}%;" class="tb_bordered_small">
                             &nbsp;
                         </td>
                         @elseif (count($lists) == 2)
-                        <td style="width: {{ 100/3 }}%;" class="tb_bordered">
+                        <td style="width: {{ 100/3 }}%;" class="tb_bordered_small">
                             &nbsp;
                         </td>
                         @endif
