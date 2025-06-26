@@ -221,7 +221,7 @@ class AsetDataController extends Controller
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('uraian', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tahun_barang', 'like', '%' . $searchValue . '%')
+                    ->orWhere('tahun_beli', 'like', '%' . $searchValue . '%')
                     ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')
                     ->orWhere('lokasi', 'like', '%' . $searchValue . '%')
                     ->orWhere('keterangan', 'like', '%' . $searchValue . '%');
@@ -282,7 +282,7 @@ class AsetDataController extends Controller
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('uraian', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tahun_barang', 'like', '%' . $searchValue . '%')
+                    ->orWhere('tahun_beli', 'like', '%' . $searchValue . '%')
                     ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')
                     ->orWhere('lokasi', 'like', '%' . $searchValue . '%')
                     ->orWhere('keterangan', 'like', '%' . $searchValue . '%');
