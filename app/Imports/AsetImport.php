@@ -28,7 +28,7 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
     {
         $this->total = count($rows);
         foreach ($rows as $key => $row) {
-            if (!empty($row['nama']) && !empty($row['merek']) && !empty($row['lokasi']) && !empty($row['kode']) && !empty($row['tahun']) && !empty($row['harga']) && !empty($row['kondisi'])) {
+            if (!empty($row['nama']) && !empty($row['merek']) && !empty($row['lokasi']) && !empty($row['kode']) && !empty($row['tahun']) && !empty($row['kondisi'])) {
                 $uuid = Uuid::uuid4()->toString();
                 $cek  = MasterSubdata::where('kode_subdata', str_replace(' ', '', $row['kode']))->get();
                 if (count($cek) > 0) {
@@ -54,7 +54,7 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
                         'type_barang'   => $row['tipe'] ?? null,
                         'ukuran_barang' => null,
                         'bahan'         => $row['bahan'] ?? '-',
-                        'harga_beli'    => intval($row['harga']),
+                        'harga_beli'    => intval($row['harga']) ?? 0,
                         'tahun_beli'    => $row['tahun'],
                         'lokasi'        => strtoupper($row['lokasi']),
                         'kondisi_barang'=> strtolower($row['kondisi']),
