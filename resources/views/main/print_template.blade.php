@@ -36,12 +36,12 @@
         }
 
         .tb_bordered {
-            border: 1px solid black;
+            border: 7px solid #00B0F0;
             border-collapse: collapse;
         }
 
         .tb_bordered td {
-            border: 1px solid black;
+            border: 7px solid #00B0F0;
             border-collapse: collapse;
         }
 
@@ -116,13 +116,13 @@
                                         <tr style="margin: 15px;">
                                             <td style="width: 20%; border: 0.6px solid black; vertical-align: top; text-align: center; padding: 0.5em;">
                                                 <img src="{{ $logo }}" alt="logo" style="height: auto; width: 27px;">
-                                            <br>
-                                            <label style="font-size: 3pt;">&nbsp;<br></label>
-                                            <img src="data:image/png;base64, {{ $value->qrcode }}" alt="" style="max-width: 60px;">
-                                            <br>
-                                            {{-- <label style="font-size: 8pt; font-weight: 600;">
-                                                {{ $value->tahun_beli }}
-                                            </label> --}}
+                                                <br>
+                                                <label style="font-size: 3pt;">&nbsp;<br></label>
+                                                <img src="data:image/png;base64, {{ $value->qrcode }}" alt="" style="max-width: 60px;">
+                                                <br>
+                                                {{-- <label style="font-size: 8pt; font-weight: 600;">
+                                                    {{ $value->tahun_beli }}
+                                                </label> --}}
                                             </td>
                                             <td style="width: 80%; border: 0px solid black; vertical-align: center; text-align: center; font-weight: 600; font-size: 10pt; padding: 0.5em;">
                                             <label>

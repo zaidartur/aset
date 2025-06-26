@@ -91,7 +91,7 @@ class ReportController extends Controller
         }
 
         // converting image
-        $path = public_path('assets/img/logo-kra.png');
+        $path = public_path('assets/img/logo-kra-color.png');
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
