@@ -184,7 +184,8 @@ class ReportController extends Controller
         $filter = $query->get();
 
         $data = [];
-        foreach ($filter as $key => $value) {
+        foreach ($filter as $key => $item) {
+            $value = AsetData::with(['subdata'])->where('uuid_barang', $item->uuid_barang)->first();
             $isi = AsetData::with(['subdata'])->where('kode_utama', $value->kode_utama)->where('tahun_beli', $value->tahun_beli)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->get();
             $merek = [];
             $harga = [];
