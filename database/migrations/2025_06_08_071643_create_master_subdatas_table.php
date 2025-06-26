@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid_subdata', '40')->unique();
             $table->string('kode_subdata', '25')->unique();
-            $table->string('parent', '25');
+            $table->string('parent', '40');
             $table->string('uraian', '100');
             $table->string('keterangan')->nullable();
             $table->timestamps();
