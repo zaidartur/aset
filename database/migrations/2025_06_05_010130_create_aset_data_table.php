@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('aset_data', function (Blueprint $table) {
             $table->id();
             $table->string('uuid_barang', '40')->unique();
-            $table->string('kode_parent', '20');
-            $table->string('kode_utama', '20');
+            $table->string('kode_parent', '40');
+            $table->string('kode_utama', '40');
             $table->integer('kode_urut');
-            $table->string('uraian', '40');
-            $table->string('nama_barang', '100');
+            $table->string('uraian', '100');
+            $table->string('nama_barang', '150');
             $table->string('merek_barang', '100')->nullable();
             $table->string('type_barang', '100')->nullable();
             $table->string('ukuran_barang', '40')->nullable();

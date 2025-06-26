@@ -248,7 +248,7 @@ class ReportController extends Controller
         if (!empty($searchValue)) {
             $query->where('nama_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tipe_barang', 'like', '%' . $searchValue . '%')
+                    ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('uraian', 'like', '%' . $searchValue . '%')
                     ->orWhere('tahun_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')

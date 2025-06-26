@@ -27,7 +27,7 @@ class AsetDataController extends Controller
     public function paket()
     {
         $data = [
-            'lists'     => AsetData::with(['subdata'])->orderBy('tipe_barang')->where('merek_barang', 'like', '%Paket%')->get(),
+            'lists'     => AsetData::with(['subdata'])->orderBy('type_barang')->where('merek_barang', 'like', '%Paket%')->get(),
             'params'    => MasterData::all(),
             'subdata'   => MasterSubdata::all(),
         ];
@@ -219,7 +219,7 @@ class AsetDataController extends Controller
         if (!empty($searchValue)) {
             $query->where('nama_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tipe_barang', 'like', '%' . $searchValue . '%')
+                    ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('uraian', 'like', '%' . $searchValue . '%')
                     ->orWhere('tahun_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')
@@ -280,7 +280,7 @@ class AsetDataController extends Controller
         if (!empty($searchValue)) {
             $query->where('nama_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tipe_barang', 'like', '%' . $searchValue . '%')
+                    ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('uraian', 'like', '%' . $searchValue . '%')
                     ->orWhere('tahun_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('master_data', function (Blueprint $table) {
             $table->id();
             $table->string('uuid_aset', '40')->unique();
-            $table->string('kode_aset', '25')->unique();
-            $table->string('uraian', '100');
+            $table->string('kode_aset', '40')->unique();
+            $table->string('uraian');
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });
