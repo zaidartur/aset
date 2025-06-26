@@ -46,6 +46,24 @@
         <script src="{{ asset('') }}assets/vendor/js/template-customizer.js"></script>
         <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
         <script src="{{ asset('') }}assets/js/config.js"></script>
+
+        <style>
+            .animated-ellipsis {
+                display: inline-block;
+                overflow: hidden;
+                vertical-align: bottom;
+            }
+            .animated-ellipsis:after {
+                display: inline-block;
+                content: "...";
+                animation: animated-ellipsis-keyframes 1.2s steps(4, jump-none) infinite;
+            }
+            @keyframes .animated-ellipsis-keyframe {
+                0% {
+                    transform: translateX(-50%);
+                }
+            }
+        </style>
     </head>
 
     <body>
@@ -142,7 +160,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                                    <button class="btn btn-primary w-100" type="submit" id="tb_login">Sign In</button>
                                 </div>
                             </form>
                         </div>
@@ -178,13 +196,17 @@
         <script src="{{ asset('') }}assets/js/main.js"></script>
 
         <!-- Page JS -->
-        <script src="{{ asset('') }}assets/js/pages-auth.js"></script>
+        {{-- <script src="{{ asset('') }}assets/js/pages-auth.js"></script> --}}
 
         <script>
             $(document).ready(function() {
                 $("form").submit(function() {
+                    const login = '<span class="ti-xs ti ti-hourglass-low me-1"></span> Memproses<span class="animated-ellipsis"></span>'
+
                     $("button").attr('disabled', '')
-                    $("input").attr('readonly', '')
+                    $("input").attr('readonly', '')                    
+                    $('#tb_login').html(login)
+                    $('#tb_login').attr('disabled', '')
                 })
             })
         </script>
