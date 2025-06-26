@@ -176,8 +176,8 @@ class ReportController extends Controller
         // $columnSortOrder = $_REQUEST['order'][0]['dir']; // asc or desc
         $searchValue = $_REQUEST['search']['value']; // Search value
 
-        $total = AsetData::groupBy('kode_utama')->groupBy('tahun_beli')->count();
-        $query = AsetData::groupBy('kode_utama')->groupBy('tahun_beli');
+        $total = AsetData::groupBy('kode_utama')->groupBy('id')->groupBy('tahun_beli')->count();
+        $query = AsetData::groupBy('kode_utama')->groupBy('id')->groupBy('tahun_beli');
         if (isset($request->ruang) && !empty($request->ruang)) {
             $query->where('lokasi', $request->ruang);
         }

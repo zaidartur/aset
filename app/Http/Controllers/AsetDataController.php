@@ -275,8 +275,8 @@ class AsetDataController extends Controller
         $columnSortOrder = $_REQUEST['order'][0]['dir']; // asc or desc
         $searchValue = $_REQUEST['search']['value']; // Search value
 
-        $total = AsetData::groupBy('merek_barang')->where('merek_barang', 'like', '%paket%')->count();
-        $query = AsetData::with(['subdata', 'parameter'])->groupBy('merek_barang')->where('merek_barang', 'like', '%Paket%');
+        $total = AsetData::groupBy('merek_barang')->groupBy('id')->where('merek_barang', 'like', '%paket%')->count();
+        $query = AsetData::with(['subdata', 'parameter'])->groupBy('id')->groupBy('merek_barang')->where('merek_barang', 'like', '%Paket%');
         if (!empty($searchValue)) {
             $query->where('nama_barang', 'like', '%' . $searchValue . '%')
                     ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
