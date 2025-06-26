@@ -197,7 +197,7 @@ class AsetDataController extends Controller
         if ($ext == 'xlsx' || $ext == 'xls') {
             $import = new AsetImport;
             Excel::import($import, $file->store('temp'));
-            return ['res' => 'success', 'success' => $import->success, 'incomplete' => $import->incomplete, 'duplicate' => $import->duplicate, 'total' => $import->total];
+            return ['res' => 'success', 'success' => $import->success, 'incomplete' => $import->incomplete, 'duplicate' => $import->duplicate, 'files' => $import->loc, 'total' => $import->total];
         } else {
             return ['res' => 'failed'];
         }
