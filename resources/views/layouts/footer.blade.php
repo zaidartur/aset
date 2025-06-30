@@ -2,11 +2,7 @@
     <div class="container-xxl">
         <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
             <div>
-                ©
-                <script>
-                    document.write(new Date().getFullYear());
-                </script>
-                , made with ❤️ by <a href="https://github.com/zaidartur" target="_blank" class="fw-medium">Zaid Artur</a>
+                ©{{ date('Y') }}, made with 🧠 by <a href="https://github.com/zaidartur" target="_blank" class="fw-medium">Zaid Artur</a>
             </div>
             {{-- <div class="d-none d-lg-inline-block">
                 <a
