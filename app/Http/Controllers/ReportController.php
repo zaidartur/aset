@@ -276,7 +276,7 @@ class ReportController extends Controller
                 'ruang'         => $value->lokasi,
                 'kondisi'       => $kondisi,
                 'keterangan'    => $value->keterangan,
-                'checkbox'      => '<div class="checkbox"><input class="form-check-input select-print" type="checkbox" id="check_' . $value->uuid_barang . '" onclick="checkcheckbox();" value="' . $value->uuid_barang . '"/><label for="check_' . $value->uuid_barang . '">&nbsp;</label></div>',
+                'checkbox'      => '<div class="checkbox"><input class="form-check-input select-print" type="checkbox" id="check_' . $value->uuid_barang . '" onclick="checkcheckbox();" value="' . $value->uuid_barang . '" data-unit="'.base64_encode($value).'"/><label for="check_' . $value->uuid_barang . '">&nbsp;</label></div>',
                 'opsi'          => '<button type="button" class="btn rounded-pill btn-icon btn-info waves-effect waves-light" onclick="_detail(`'. $value->uuid_barang .'`)" title="Detail Barang"><i class="ti ti-info-circle"></i></button>' .
                                     '&nbsp;&nbsp;' .
                                     '<button type="button" id="printItem" class="btn rounded-pill btn-warning waves-effect waves-light dropdown-toggle" title="Print Barang" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ti ti-printer"></i></button>

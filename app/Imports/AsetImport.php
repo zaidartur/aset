@@ -35,7 +35,7 @@ class AsetImport implements ToCollection, WithHeadingRow, WithCalculatedFormulas
                     $param = $cek[0];
 
                     // get register
-                    $reg = AsetData::where('kode_utama', $param->uuid_subdata)->where('tahun_beli', intval($row['tahun']))->orderBy('kode_urut')->first();
+                    $reg = AsetData::where('kode_utama', $param->uuid_subdata)->where('tahun_beli', intval($row['tahun']))->orderBy('kode_urut', 'desc')->first();
                     if ($reg) {
                         $kode = intval($reg->kode_urut) + 1;
                     } else {

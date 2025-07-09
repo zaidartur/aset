@@ -20,7 +20,7 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="card">
+    <div class="card mb-5">
         <div class="card-datatable table-responsive pt-0">
             <table class="datatables-basic table" id="tb_aset" style="width: 100%;">
                 <thead>
@@ -41,6 +41,46 @@
                     </tr>
                 </thead>
             </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12 row justify-content-between">
+                <div class="col-6">
+                    <div class="card-title">
+                        <h5>Daftar Antrian</h5>
+                    </div>
+                </div>
+                <div class="col-6" style="text-align: -webkit-right;">
+                    {{-- <button class="btn btn-label-success" id="bt_sel_print" onclick="selected_print()" disabled><i class="ti ti-printer me-sm-1"></i> Print</button> --}}
+                    <div class="btn-group" role="group">
+                        <button id="bt_sel_print" type="button" class="btn btn-label-success dropdown-toggle waves-effect" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+                            <i class="ti ti-printer me-sm-1"></i> Print
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="bt_sel_print" style="">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="selected_print('big')">Ukuran Besar</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="selected_print('small')">Ukuran Kecil</a>
+                        </div>
+                    </div>
+                    <button class="btn btn-label-danger" id="bt_clear" onclick="_clear()" disabled><i class="ti ti-trash me-sm-1"></i> Clear All</button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row col-12 justifiy-content-center" id="selected_body">
+                {{-- <div class="col-md-3 col-lg-2 mb-3">
+                    <div class="card text-center m-0">
+                        <div class="card-header">1.3.2.5.1.4.3</div>
+                        <div class="card-body">
+                            <h5 class="card-title">Rak Besi / Rakitan</h5>
+                            <p class="card-text">Rak Gudang TKI / BIDANG TKI</p>
+                            <a href="javascript:void(0)" class="btn btn-danger waves-effect waves-light">Delete</a>
+                        </div>
+                        <div class="card-footer text-muted">2018</div>
+                    </div>
+                </div> --}}
+            </div>
         </div>
     </div>
 </div>
@@ -84,6 +124,8 @@
 
 <script>
     let tb_aset
+    let is_seleceted = []
+    let label_unit = []
     $(document).ready(function() {
         var dt_basic_table = $('#tb_aset'),
             dt_complex_header_table = $('.dt-complex-header'),
@@ -158,6 +200,16 @@
                 displayLength: 10,
                 lengthMenu: [10, 25, 50, 75, 100],
                 buttons: [
+                    {
+                        text: '<i class="ti ti-timeline-event-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add to Queue</span>',
+                        className: 'btn btn-info me-2 bt-queue',
+                        attr: {
+                            'id': 'btn_queue',
+                        },
+                        action: function (e, dt, node, config) {
+                            _queue()
+                        }
+                    },
                     {
                         extend: 'collection',
                         text: '<i class="ti ti-select me-sm-1"></i> <span class="d-none d-sm-inline-block">Custom Print</span>',
@@ -266,6 +318,7 @@
                 //     cell.innerHTML = i + 1 + PageInfo.start;
                 // });
                 $('.bt-sel').attr('disabled', '')
+                $('.bt-queue').attr('disabled', '')
                 $('.bt-sel').hide()
                 $("div .title-select").html('<label class="m-l-15 m-t-15"><strong> 0 Selected</strong></label>');
             });
@@ -274,6 +327,8 @@
                 document.getElementById('checkall').indeterminate = false
             });
         }
+
+        $('')
 
         const numeralMask = document.querySelectorAll('.numeral-mask');
         // Verification masking
@@ -289,9 +344,11 @@
             if ($(this).is(':checked')) {
                 $('.select-print').prop('checked', true);
                 $('.bt-sel').removeAttr('disabled');
+                $('.bt-queue').removeAttr('disabled')
             } else {
                 $('.select-print').prop('checked', false);
                 $('.bt-sel').attr('disabled', '');
+                $('.bt-queue').attr('disabled', '')
             }
 
             var totalchecked = 0;
@@ -299,7 +356,12 @@
                 if ($(this).is(':checked')) {
                     totalchecked += 1;
                     $('.bt-sel').removeAttr('disabled');
-                }
+                    $('.bt-queue').removeAttr('disabled')
+                } 
+                // else {
+                //     // let filter  = checked
+                //     checked = checked.filter(function(v) { return v !== ($(this).val()) })
+                // }
             });
             $("div .title-select").html('<label class="m-l-15 m-t-15"><strong> ' + totalchecked + ' Selected</strong></label>');
         });
@@ -423,7 +485,7 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label" for="uraian">Keterangan</label>
-                                <textarea cols="30" rows="5" class="form-control" disabled>${data.keterangan}</textarea>
+                                <textarea cols="30" rows="5" class="form-control" disabled>${(data.keterangan === '' || data.keterangan === null) ? '' : data.keterangan }</textarea>
                             </div>`
 
                     $('#isContent').html(text)
@@ -457,6 +519,7 @@
             if ($(this).is(':checked')) {
                 totalchecked += 1;
                 $('.bt-sel').removeAttr('disabled');
+                $('.bt-queue').removeAttr('disabled')
             }
         });
         $("div .title-select").html('<label class="m-l-15 m-t-15"><strong> ' + totalchecked + ' Selected</strong></label>');
@@ -467,10 +530,12 @@
                 checkbox.checked = true
             }
             $('.bt-sel').removeAttr('disabled');
+            $('.bt-queue').removeAttr('disabled')
         } else {
             checkbox.indeterminate = false
             checkbox.checked = false
             $('.bt-sel').attr('disabled', '');
+            $('.bt-queue').attr('disabled', '')
         }
 
         // Checked unchecked checkbox
@@ -480,6 +545,111 @@
         //     $('#checkall').prop('checked', false);
         // }
         console.log(totalchecked);
+    }
+
+    function _queue() {
+        $('#bt_sel_print').attr('disabled', '')
+        $('#bt_clear').attr('disabled', '')
+        let checked = is_seleceted
+        $('.select-print').each(function () {
+            if ($(this).is(':checked')) {
+                checked.push($(this).val())
+                label_unit.push($(this).attr('data-unit'))
+                // console.log($(this).attr('data-unit'))
+            } else {
+                const uid = $(this).val()
+                // console.log(uid)
+                let index = checked.indexOf(uid)
+                if (index > -1) {
+                    checked.splice(index, 1)
+                    label_unit.splice(index, 1)
+                }
+                // checked = checked.filter(function(v) { return v !== uid })
+            }
+        });
+
+        // filtering uid
+        is_seleceted = checked.filter(function(el, index, arr) {
+            return index === arr.indexOf(el);
+        });
+        label_unit = label_unit.filter(function(el, index, arr) {
+            return index === arr.indexOf(el);
+        });
+        // console.log(is_seleceted.length, label_unit.length)
+
+        $('#selected_body').html('')
+        let lists = '<div class="col-12 mb-3"><hr></div>'
+        if (is_seleceted.length > 0) {
+            $('#bt_sel_print').removeAttr('disabled')
+            $('#bt_clear').removeAttr('disabled')
+
+            is_seleceted.forEach((is, i) => {
+                const label = JSON.parse(atob(label_unit[i]))
+                // console.log(label)
+                lists += `<div class="col-md-3 col-lg-3 mb-3" style="max-height: 350px;" id="sel_${label.uuid_barang}">
+                            <div class="card text-center m-0" style="height: 350px;">
+                                <div class="card-header">${label.subdata.kode_subdata ?? ''}</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">${label.nama_barang} / ${label.merek_barang}</h5>
+                                    <p class="card-text">${label.lokasi} ${(label.keterangan === '' || label.keterangan === null) ? '' : ('/ ' + label.keterangan)}</p>
+                                    <p class="text-muted">${label.tahun_beli}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <a href="javascript:void(0)" class="btn btn-danger waves-effect waves-light" onclick="_remove('${label.uuid_barang}')">Delete</a>
+                                </div>
+                            </div>
+                        </div>`
+            })
+
+            $('#selected_body').append(lists)
+        }
+    }
+
+    function _clear() {
+        is_seleceted = []
+        label_unit = []
+        $('#selected_body').html('')
+        $('#bt_sel_print').attr('disabled', '')
+        $('#bt_clear').attr('disabled', '')
+    }
+
+    function _remove(uid) {
+        if (uid && is_seleceted.length > 0) {
+            let index = is_seleceted.indexOf(uid)
+            if (index > -1) {
+                is_seleceted.splice(index, 1)
+                label_unit.splice(index, 1)
+            }
+            $('#sel_' + uid).remove()
+            console.log('removing: ', uid)
+        }
+
+        if (is_seleceted.length === 0) {
+            $('#bt_sel_print').attr('disabled', '')
+            $('#bt_clear').attr('disabled', '')
+        }
+    }
+
+    function selected_print(type) {
+        if (type && is_seleceted.length > 0) {
+            console.log('print:', is_seleceted)
+            Swal.fire({
+                title: "Cetak Data Antrian?",
+                html: "Anda yakin ingin menyetak <b>"+ is_seleceted.length +"</b> barang "+(type === 'big' ? 'ukuran besar' : 'ukuran kecel')+"?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Konfirmasi!",
+                cancelButtonText: 'Batalkan',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open("/report/print-aset?uuid="+ btoa(is_seleceted) +"&size="+ type, "_blank")
+                }
+            })
+        }
     }
 
     function _print(uid, size) {
