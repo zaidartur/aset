@@ -8,6 +8,8 @@ use App\Models\MasterData;
 use App\Models\MasterSubdata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Ramsey\Uuid\Uuid;
 
@@ -217,14 +219,21 @@ class AsetDataController extends Controller
         $total = AsetData::count();
         $query = AsetData::with(['subdata', 'parameter']);
         if (!empty($searchValue)) {
-            $query->where('nama_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
-                    ->orWhere('uraian', 'like', '%' . $searchValue . '%')
-                    ->orWhere('tahun_beli', 'like', '%' . $searchValue . '%')
-                    ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')
-                    ->orWhere('lokasi', 'like', '%' . $searchValue . '%')
-                    ->orWhere('keterangan', 'like', '%' . $searchValue . '%');
+            // $query->where('nama_barang', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('merek_barang', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('type_barang', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('uraian', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('tahun_beli', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('harga_beli', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('lokasi', 'like', '%' . $searchValue . '%')
+            //         ->orWhere('keterangan', 'like', '%' . $searchValue . '%')
+            
+            $split = explode(' ', $searchValue);
+            if (count($split) > 0) {
+                foreach ($split as $k => $item) {
+                    $query->where(DB::raw('CONCAT(`uraian`, " ", `nama_barang`, " ", `merek_barang`, " ", `tahun_beli`, " ", `lokasi`, " ", `keterangan`)'), 'like', '%' . $item . '%');
+                }
+            }
         }
         $filter = $query->get();
 
