@@ -49,13 +49,13 @@
         </li>
         <li class="menu-item {{ request()->routeIs('aset') ? 'active' : '' }}">
             <a href="{{ route('aset') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <i class="menu-icon tf-icons ti ti-table-down"></i>
                 <div data-i18n="Tabel Data">Tabel Data</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('aset.paket') ? 'active' : '' }}">
             <a href="{{ route('aset.paket') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <i class="menu-icon tf-icons ti ti-package"></i>
                 <div data-i18n="Tabel Paket">Tabel Paket</div>
             </a>
         </li>
@@ -65,13 +65,13 @@
         </li>
         <li class="menu-item {{ request()->routeIs('parameter') ? 'active' : '' }}">
             <a href="{{ route('parameter') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <i class="menu-icon tf-icons ti ti-grid-pattern"></i>
                 <div data-i18n="Parameter">Parameter</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('subparameter') ? 'active' : '' }}">
             <a href="{{ route('subparameter') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <i class="menu-icon tf-icons ti ti-vector"></i>
                 <div data-i18n="Sub Parameter">Sub Parameter</div>
             </a>
         </li>
@@ -81,13 +81,13 @@
         </li>
         <li class="menu-item {{ request()->routeIs('report.aset') ? 'active' : '' }}">
             <a href="{{ route('report.aset') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <i class="menu-icon tf-icons ti ti-checkup-list"></i>
                 <div data-i18n="Laporan Aset">Laporan Aset</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('report.label') ? 'active' : '' }}">
             <a href="{{ route('report.label') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-app-window"></i>
+                <i class="menu-icon tf-icons ti ti-tag"></i>
                 <div data-i18n="Labeling Aset">Labeling Aset</div>
             </a>
         </li>

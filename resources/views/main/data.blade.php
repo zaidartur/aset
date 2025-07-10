@@ -403,7 +403,7 @@
     function _import() {
         Swal.fire({
             title: 'Pilih file Excel',
-            html: '<p class="text-warning">Pastikan data sudah sesuai dengan template yang disediakan</p>',
+            html: '<p class="text-warning">Pastikan data sudah sesuai dengan template yang disediakan, serta tidak tercampur dengan data lama.</p>',
             input: 'file',
             inputAttributes: {
                 accept: '.xlsx,.xls',

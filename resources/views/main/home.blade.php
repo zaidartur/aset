@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-2 pb-1">
                         <div class="avatar me-2">
-                            <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-armchair ti-md"></i></span>
+                            <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-calculator ti-md"></i></span>
                         </div>
                         <h4 class="ms-1 mb-0">{{ number_format($total) }}</h4>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-2 pb-1">
                             <div class="avatar me-2">
-                                <span class="avatar-initial rounded bg-label-info"><i class="ti ti-armchair ti-md"></i></span>
+                                <span class="avatar-initial rounded bg-label-info"><i class="ti ti-calculator ti-md"></i></span>
                             </div>
                             <h4 class="ms-1 mb-0">{{ number_format($item['jumlah']) }}</h4>
                         </div>
