@@ -260,7 +260,11 @@ class ReportController extends Controller
             $split = explode(' ', $searchValue);
             if (count($split) > 0) {
                 foreach ($split as $k => $item) {
-                    $query->where(DB::raw('CONCAT(`uraian`, " ", `nama_barang`, " ", `merek_barang`, " ", `tahun_beli`, " ", `lokasi`, " ", `keterangan`)'), 'like', '%' . $item . '%');
+                    $query->where(
+                        DB::raw('CONCAT(`uraian`, " ", `nama_barang`, " ", `merek_barang`, " ", `tahun_beli`, " ", `lokasi`, " ", IF (`keterangan` != "", `keterangan`, "") )'),
+                        'like',
+                        '%' . $item . '%'
+                    );
                 }
             }
         }
