@@ -109,15 +109,15 @@ class ReportController extends Controller
                 if ($c < 3) {
                     $implode .= $code . '.';
                 } elseif ($c == 3) {
-                    if (intval($code) < 9) {
+                    if (intval($code) < 10) {
                         $implode .= '0' . $code . '.';
                     } else {
                         $implode .= $code . '.';
                     }
                 } else {
-                    if (intval($code) < 9) {
+                    if (intval($code) < 10) {
                         $implode .= '00' . $code . '.';
-                    } elseif (intval($code) > 9 && intval($code) < 99) {
+                    } elseif (intval($code) > 9 && intval($code) < 100) {
                         $implode .= '0' . $code . '.';
                     } else {
                         $implode .= $code . '.';
