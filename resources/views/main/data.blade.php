@@ -296,6 +296,13 @@
                             _template()
                         }
                     },
+                    {
+                        text: '<i class="ti ti-download me-sm-1"></i> <span class="d-none d-sm-inline-block">Export Data</span>',
+                        className: 'btn btn-info me-2',
+                        action: function (e, dt, node, config) {
+                            _export()
+                        }
+                    },
                 ],
                 responsive: {
                     details: {
@@ -489,6 +496,10 @@
                 })
             }
         });
+    }
+
+    function _export() {
+        window.open('{{ route("aset.export") }}', '_blank')
     }
 
     function _detail(uid) {

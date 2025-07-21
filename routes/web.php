@@ -26,6 +26,7 @@ Route::prefix('/tabel-aset')->middleware(['auth'])->group(function() {
 
     Route::get('/paket', [AsetDataController::class, 'paket'])->name('aset.paket');
     Route::get('/paket/server-side', [AsetDataController::class, 'serverside_paket'])->name('aset.paket.ss');
+    Route::get('/download', [AsetDataController::class, 'export_data'])->name('aset.export');
 
     Route::post('/save-data', [AsetDataController::class, 'save'])->name('aset.save');
     Route::post('/update-data', [AsetDataController::class, 'update'])->name('aset.update');

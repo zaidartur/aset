@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AsetExport;
 use App\Imports\AsetImport;
 use App\Models\AsetData;
 use App\Models\MasterData;
@@ -203,6 +204,11 @@ class AsetDataController extends Controller
         } else {
             return ['res' => 'failed'];
         }
+    }
+
+    public function export_data()
+    {
+        return Excel::download(new AsetExport(), 'aset_data_'. date("YmdHis") .'.xlsx');
     }
 
     public function serverside()
