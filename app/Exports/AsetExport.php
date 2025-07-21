@@ -46,7 +46,7 @@ class AsetExport implements FromView
                     } else {
                         $implode .= $code . '.';
                     }
-                } else {
+                } elseif ($c == 6) {
                     if (intval($code) < 10) {
                         $implode .= '00' . $code;
                     } elseif (intval($code) > 9 && intval($code) < 100) {
@@ -54,13 +54,21 @@ class AsetExport implements FromView
                     } else {
                         $implode .= $code;
                     }
+                } else {
+                    if (intval($code) < 10) {
+                        $implode .= '00' . $code . '.';
+                    } elseif (intval($code) > 9 && intval($code) < 100) {
+                        $implode .= '0' . $code . '.';
+                    } else {
+                        $implode .= $code . '.';
+                    }
                 }
             }
 
             $urutan = '';
-            if (intval($value->kode_urut) < 9) {
+            if (intval($value->kode_urut) < 10) {
                 $urutan .= '00' . $value->kode_urut;
-            } elseif (intval($value->kode_urut) > 9 && intval($value->kode_urut) < 99) {
+            } elseif (intval($value->kode_urut) > 9 && intval($value->kode_urut) < 100) {
                 $urutan .= '0' . $value->kode_urut;
             } else {
                 $urutan .= $value->kode_urut;

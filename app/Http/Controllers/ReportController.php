@@ -125,9 +125,9 @@ class ReportController extends Controller
                 }
             }
 
-            if (intval($value->kode_urut) < 9) {
+            if (intval($value->kode_urut) < 10) {
                 $implode .= '00' . $value->kode_urut;
-            } elseif (intval($value->kode_urut) > 9 && intval($value->kode_urut) < 99) {
+            } elseif (intval($value->kode_urut) > 9 && intval($value->kode_urut) < 100) {
                 $implode .= '0' . $value->kode_urut;
             } else {
                 $implode .= $value->kode_urut;
