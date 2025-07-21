@@ -48,11 +48,11 @@ class AsetExport implements FromView
                     }
                 } else {
                     if (intval($code) < 10) {
-                        $implode .= '00' . $code . '.';
+                        $implode .= '00' . $code;
                     } elseif (intval($code) > 9 && intval($code) < 100) {
-                        $implode .= '0' . $code . '.';
+                        $implode .= '0' . $code;
                     } else {
-                        $implode .= $code . '.';
+                        $implode .= $code;
                     }
                 }
             }
