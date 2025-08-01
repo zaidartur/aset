@@ -240,7 +240,7 @@
                                                     DINAS KOMUNIKASI DAN INFORMATIKA
                                                 </label>
                                                 <label>
-                                                    {{ $value->kode }}
+                                                    {{ $value->kode }} / {{ $value->tahun_beli }}
                                                     <br>
                                                     {{ $value->nama_barang }}
                                                     <br>
@@ -249,9 +249,9 @@
                                                     {{ !empty($value->merek_barang) ? ($value->merek_barang . ', ') : '' }}{{ !empty($value->type_barang) ? ($value->type_barang . ', ') : '' }}{{ !empty($value->lokasi) ? ($value->lokasi) : '' }}
                                                     <br>
                                                 </label>
-                                                <label style="font-size: 5.8pt; font-weight: 600;">
+                                                {{-- <label style="font-size: 5.8pt; font-weight: 600;">
                                                     {{ $value->tahun_beli }}
-                                                </label>
+                                                </label> --}}
                                             </td>
                                         </tr>
                                     </table>
@@ -282,7 +282,7 @@
                                                 DINAS KOMUNIKASI DAN INFORMATIKA
                                             </label>
                                             <label>
-                                                {{ $item->kode }}
+                                                {{ $item->kode }} / {{ $value->tahun_beli }}
                                                 <br>
                                                 {{ $item->nama_barang }}
                                                 <br>
@@ -291,9 +291,9 @@
                                                 {{ !empty($item->merek_barang) ? ($item->merek_barang . ', ') : '' }}{{ !empty($item->type_barang) ? ($item->type_barang . ', ') : '' }}{{ !empty($item->lokasi) ? ($item->lokasi) : '' }}
                                                 <br>
                                             </label>
-                                            <label style="font-size: 5.8pt; font-weight: 600;">
+                                            {{-- <label style="font-size: 5.8pt; font-weight: 600;">
                                                 {{ $item->tahun_beli }}
-                                            </label>
+                                            </label> --}}
                                         </td>
                                     </tr>
                                 </table>
