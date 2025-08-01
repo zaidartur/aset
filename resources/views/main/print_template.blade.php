@@ -282,7 +282,7 @@
                                                 DINAS KOMUNIKASI DAN INFORMATIKA
                                             </label>
                                             <label>
-                                                {{ $item->kode }} / {{ $value->tahun_beli }}
+                                                {{ $item->kode }} / {{ $item->tahun_beli }}
                                                 <br>
                                                 {{ $item->nama_barang }}
                                                 <br>
