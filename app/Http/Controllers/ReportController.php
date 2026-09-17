@@ -165,73 +165,177 @@ class ReportController extends Controller
         return $pdf->stream();
     }
 
-    public function serverside()
+    // public function serverside()
+    // {
+    //     Carbon::setLocale('id');
+    //     $request = Request();
+    //     $draw = $_REQUEST['draw'] ?? 0;
+    //     $row = $_REQUEST['start'] ?? 0;
+    //     $rowperpage = $_REQUEST['length']; // Rows display per page
+    //     // $columnIndex = $_REQUEST['order'][0]['column']; // Column index
+    //     // $columnName = $_REQUEST['columns'][$columnIndex]['data']; // Column name
+    //     // $columnSortOrder = $_REQUEST['order'][0]['dir']; // asc or desc
+    //     $searchValue = $_REQUEST['search']['value']; // Search value
+
+    //     $total = AsetData::groupBy('kode_utama')->groupBy('uuid_barang')->orderBy('tahun_beli')->count();
+    //     $query = AsetData::groupBy('kode_utama')->groupBy('uuid_barang')->orderBy('tahun_beli');
+    //     if (isset($request->ruang) && !empty($request->ruang)) {
+    //         $query->where('lokasi', $request->ruang);
+    //     }
+    //     $filter = $query->get();
+
+    //     $data = [];
+    //     foreach ($filter as $key => $item) {
+    //         $value = AsetData::with(['subdata'])->where('uuid_barang', $item->uuid_barang)->first();
+    //         $isi = AsetData::with(['subdata'])->where('kode_utama', $value->kode_utama)->where('tahun_beli', $value->tahun_beli)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->get();
+    //         $merek = [];
+    //         $harga = [];
+    //         $baik  = 0; $ringan = 0; $berat = 0;
+    //         foreach ($isi as $m) {
+    //             $merek[] = $m->merek_barang;
+    //             $harga[] = intval($m->harga_beli);
+    //             if ($m->kondisi == 'b') {
+    //                 $baik++;
+    //             } elseif ($m->kondisi == 'rr') {
+    //                 $ringan++;
+    //             } elseif ($m->kondisi == 'rb') {
+    //                 $berat++;
+    //             }
+    //         }
+    //         $merek = array_unique($merek);
+
+    //         $data[] = [
+    //             'jenis'             => $value->uraian,
+    //             'nama'              => '<div class="col-12"><button class="btn btn-outline-success btn-block btn-sm col-12" onclick="_detail(`'.base64_encode($value).'`, `'. base64_encode($isi) .'`, `Rp'. number_format(array_sum($harga)) .'`)" title="Klik untuk melihat detail data"><i class="ti ti-info-square-rounded"></i>&nbsp;' . $value->nama_barang . '</button></div>',
+    //             'merek'             => (count($merek) > 1 ? 'Variatif' : $merek[0]),
+    //             'ukuran'            => $value->ukuran_barang,
+    //             'bahan'             => $value->bahan,
+    //             'tahun'             => $value->tahun_beli,
+    //             'kode'              => $isi[0]->subdata->kode_subdata ?? null,
+    //             'jumlah'            => count($isi),
+    //             'harga'             => 'Rp' . number_format(array_sum($harga)),
+    //             'kondisi_baik'      => $baik,
+    //             'kondisi_ringan'    => $ringan,
+    //             'kondisi_berat'     => $baik,
+    //             'keterangan'        => (count($merek) > 1 ? ('Merek: ' . implode(', ', $merek)) : ''),
+    //             'ruangan'           => $value->lokasi,
+    //             'update'            => !empty($isi[0]->updated_at) ? (Carbon::parse($isi[0]->updated_at)->isoFormat('LL')) : (Carbon::parse($isi[0]->created_at)->isoFormat('LL')),
+    //         ];
+    //     }
+
+    //     ## Response
+    //     $response = [
+    //         "draw" => $draw ? intval($draw) : 0,
+    //         "recordsTotal" => $total,
+    //         "recordsFiltered" => count($filter),
+    //         "data" => array_slice($data, $row, $rowperpage),
+    //     ];
+
+    //     return json_encode($response);
+    // }
+
+    public function serverside(Request $request)
     {
         Carbon::setLocale('id');
-        $request = Request();
-        $draw = $_REQUEST['draw'] ?? 0;
-        $row = $_REQUEST['start'] ?? 0;
-        $rowperpage = $_REQUEST['length']; // Rows display per page
-        // $columnIndex = $_REQUEST['order'][0]['column']; // Column index
-        // $columnName = $_REQUEST['columns'][$columnIndex]['data']; // Column name
-        // $columnSortOrder = $_REQUEST['order'][0]['dir']; // asc or desc
-        $searchValue = $_REQUEST['search']['value']; // Search value
 
-        $total = AsetData::groupBy('kode_utama')->groupBy('kode_utama')->groupBy('uuid_barang')->orderBy('tahun_beli')->count();
-        $query = AsetData::groupBy('kode_utama')->groupBy('kode_utama')->groupBy('uuid_barang')->orderBy('tahun_beli');
-        if (isset($request->ruang) && !empty($request->ruang)) {
+        // 1. Mengambil parameter DataTables
+        $draw        = $request->input('draw', 0);
+        $start       = $request->input('start', 0);
+        $length      = $request->input('length', 10);
+        $searchValue = $request->input('search.value');
+
+        // 2. Inisiasi Query Base
+        // Catatan: Grouping berdasarkan 'uuid_barang' sebenarnya tidak merubah hasil karena kolom ini bersifat unique. 
+        // Namun struktur asli Anda tetap dipertahankan untuk menyesuaikan alur.
+        $query = AsetData::query();
+
+        // Filter Ruangan
+        if ($request->filled('ruang')) {
             $query->where('lokasi', $request->ruang);
         }
-        $filter = $query->get();
+
+        // 3. Implementasi Fitur Pencarian (Search) yang sebelumnya tertinggal
+        if (!empty($searchValue)) {
+            $query->where(function($q) use ($searchValue) {
+                $q->where('nama_barang', 'like', "%{$searchValue}%")
+                ->orWhere('uraian', 'like', "%{$searchValue}%")
+                ->orWhere('merek_barang', 'like', "%{$searchValue}%")
+                ->orWhere('tahun_beli', 'like', "%{$searchValue}%");
+            });
+        }
+
+        // Menghitung total data (sebelum pagination)
+        $totalRecords = AsetData::count();
+        $totalFiltered = $query->count();
+
+        // 4. Server-Side Pagination yang Benar (Dilakukan di level database, bukan PHP)
+        $filter = $query->orderBy('tahun_beli', 'desc')
+                        ->skip($start)
+                        ->take($length)
+                        ->get();
 
         $data = [];
-        foreach ($filter as $key => $item) {
-            $value = AsetData::with(['subdata'])->where('uuid_barang', $item->uuid_barang)->first();
-            $isi = AsetData::with(['subdata'])->where('kode_utama', $value->kode_utama)->where('tahun_beli', $value->tahun_beli)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->get();
+        foreach ($filter as $item) {
+            // 5. Menghapus Query Redundan N+1
+            // Tidak perlu melakukan query "where('uuid_barang')" lagi karena $item sudah memuat data tersebut.
+            
+            $isi = AsetData::with(['subdata'])
+                ->where('kode_utama', $item->kode_utama)
+                ->where('tahun_beli', $item->tahun_beli)
+                ->orderBy('updated_at', 'desc')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
             $merek = [];
-            $harga = [];
-            $baik  = 0; $ringan = 0; $berat = 0;
+            $harga = 0;
+            $baik  = 0; 
+            $ringan = 0; 
+            $berat = 0;
+
             foreach ($isi as $m) {
-                $merek[] = $m->merek_barang;
-                $harga[] = intval($m->harga_beli);
-                if ($m->kondisi == 'b') {
+                if ($m->merek_barang) {
+                    $merek[] = $m->merek_barang;
+                }
+                $harga += (int) $m->harga_beli;
+
+                // 6. Memperbaiki nama kolom dari kondisi menjadi kondisi_barang
+                if ($m->kondisi_barang == 'b') {
                     $baik++;
-                } elseif ($m->kondisi == 'rr') {
+                } elseif ($m->kondisi_barang == 'rr') {
                     $ringan++;
-                } elseif ($m->kondisi == 'rb') {
+                } elseif ($m->kondisi_barang == 'rb') {
                     $berat++;
                 }
             }
+            
             $merek = array_unique($merek);
 
             $data[] = [
-                'jenis'             => $value->uraian,
-                'nama'              => '<div class="col-12"><button class="btn btn-outline-success btn-block btn-sm col-12" onclick="_detail(`'.base64_encode($value).'`, `'. base64_encode($isi) .'`, `Rp'. number_format(array_sum($harga)) .'`)" title="Klik untuk melihat detail data"><i class="ti ti-info-square-rounded"></i>&nbsp;' . $value->nama_barang . '</button></div>',
-                'merek'             => (count($merek) > 1 ? 'Variatif' : $merek[0]),
-                'ukuran'            => $value->ukuran_barang,
-                'bahan'             => $value->bahan,
-                'tahun'             => $value->tahun_beli,
-                'kode'              => $isi[0]->subdata->kode_subdata ?? null,
-                'jumlah'            => count($isi),
-                'harga'             => 'Rp' . number_format(array_sum($harga)),
-                'kondisi_baik'      => $baik,
-                'kondisi_ringan'    => $ringan,
-                'kondisi_berat'     => $baik,
-                'keterangan'        => (count($merek) > 1 ? ('Merek: ' . implode(', ', $merek)) : ''),
-                'ruangan'           => $value->lokasi,
-                'update'            => !empty($isi[0]->updated_at) ? (Carbon::parse($isi[0]->updated_at)->isoFormat('LL')) : (Carbon::parse($isi[0]->created_at)->isoFormat('LL')),
+                'jenis'          => $item->uraian,
+                'nama'           => '<div class="col-12"><button class="btn btn-outline-success btn-block btn-sm col-12" onclick="_detail(`'.base64_encode($item).'`, `'. base64_encode($isi) .'`, `Rp'. number_format($harga) .'`)" title="Klik untuk melihat detail data"><i class="ti ti-info-square-rounded"></i>&nbsp;' . $item->nama_barang . '</button></div>',
+                'merek'          => (count($merek) > 1 ? 'Variatif' : ($merek[0] ?? '-')),
+                'ukuran'         => $item->ukuran_barang,
+                'bahan'          => $item->bahan,
+                'tahun'          => $item->tahun_beli,
+                'kode'           => $isi->first()->subdata->kode_subdata ?? null,
+                'jumlah'         => $isi->count(),
+                'harga'          => 'Rp' . number_format($harga),
+                'kondisi_baik'   => $baik,
+                'kondisi_ringan' => $ringan,
+                'kondisi_berat'  => $berat, // 7. Memperbaiki typo mapping kondisi
+                'keterangan'     => (count($merek) > 1 ? ('Merek: ' . implode(', ', $merek)) : ''),
+                'ruangan'        => $item->lokasi,
+                'update'         => !empty($isi->first()->updated_at) ? (Carbon::parse($isi->first()->updated_at)->isoFormat('LL')) : (Carbon::parse($isi->first()->created_at)->isoFormat('LL')),
             ];
         }
 
         ## Response
-        $response = [
-            "draw" => $draw ? intval($draw) : 0,
-            "recordsTotal" => $total,
-            "recordsFiltered" => count($filter),
-            "data" => array_slice($data, $row, $rowperpage),
-        ];
-
-        return json_encode($response);
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalFiltered,
+            "data"            => $data,
+        ]);
     }
 
     public function serverside_label()

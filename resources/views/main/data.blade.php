@@ -673,8 +673,10 @@
 
                     const uid = document.getElementById('uuid')
                     if (uid) {
-                        $('#uuid').val(res.uuid_barang)
+                        console.log('uid', uid)
+                        $('#uuid').val(data.uuid_barang)
                     } else {
+                        console.log('create', data.uuid_barang)
                         $('#addForm').append(`<input type="hidden" name="uuid" id="uuid" value="${data.uuid_barang}" required>`)
                     }
 

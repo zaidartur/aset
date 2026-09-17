@@ -104,7 +104,7 @@ class AsetDataController extends Controller
             'kondisi'   => 'required|string',
         ]);
 
-        $cek  = MasterSubdata::where('uuid_subdata', $request->subdata)->first();
+        $cek  = MasterSubdata::where('uuid_subdata', $request->uraian)->first();
         
         if ($cek) {
             $data = [
